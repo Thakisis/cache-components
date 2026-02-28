@@ -1,12 +1,12 @@
 // db/seed.ts
-import { Database } from "bun:sqlite";
-import { drizzle } from "drizzle-orm/bun-sqlite";
+import { createClient } from "@libsql/client";
+import { drizzle } from "drizzle-orm/libsql";
 import { type NewProduct, products } from "../src/db/schema";
 
-const client = new Database("db/products.sqlite", { create: true });
+const client = createClient({ url: "file:db/products.sqlite" });
 const db = drizzle(client);
 
-client.run(`
+await client.execute(`
   CREATE TABLE IF NOT EXISTS products (
     id          INTEGER PRIMARY KEY AUTOINCREMENT,
     name        TEXT    NOT NULL,
@@ -21,7 +21,7 @@ client.run(`
   )
 `);
 
-client.run("DELETE FROM products");
+await client.execute("DELETE FROM products");
 
 const seed: NewProduct[] = [
   {
@@ -252,7 +252,7 @@ const seed: NewProduct[] = [
   },
 ];
 
-db.insert(products).values(seed).run();
+await db.insert(products).values(seed);
 
 console.log(`✅ ${seed.length} productos insertados`);
 client.close();

@@ -1,11 +1,9 @@
-// src/db/index.ts
-import { Database } from "bun:sqlite";
-import { drizzle } from "drizzle-orm/bun-sqlite";
+import { createClient } from "@libsql/client";
+import { drizzle } from "drizzle-orm/libsql";
 import * as schema from "./schema";
 
-const client = new Database("db/products.sqlite", { create: true });
-
-client.run("PRAGMA journal_mode = WAL");
-client.run("PRAGMA synchronous = NORMAL");
+const client = createClient({
+  url: "file:db/products.sqlite",
+});
 
 export const db = drizzle(client, { schema });
