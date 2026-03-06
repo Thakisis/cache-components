@@ -4,12 +4,9 @@ export type PageParams = {
   idproduct: string;
 };
 
-export default async function EditProduct({
-  params,
-}: {
-  params: Promise<PageParams>;
-}) {
-  const { idproduct } = await params;
+export default async function EditProduct({ idproduct }: PageParams) {
+  "use cache";
+
   const product = await getProduct(parseInt(idproduct, 10));
   return <ProductEditForm product={product} />;
 }

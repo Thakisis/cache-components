@@ -1,3 +1,20 @@
-export default function editProduct() {
-  return <div>Edit Product s</div>;
+import { getProductIds } from "@/server/queries/products";
+export type PageParams = {
+  idproduct: string;
+};
+
+export async function generateStaticParams() {
+  const products = await getProductIds(10);
+  return products.map((product) => ({
+    idproduct: product.id.toString(),
+  }));
+}
+
+export default async function ProductPage({
+  params,
+}: {
+  params: Promise<PageParams>;
+}) {
+  const { idproduct } = await params;
+  return <div>Edit Product {idproduct}</div>;
 }
