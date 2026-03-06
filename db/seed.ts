@@ -11,7 +11,7 @@ const db = drizzle(client);
 
 await client.execute(`
   CREATE TABLE IF NOT EXISTS products (
-    id          INTEGER PRIMARY KEY AUTOINCREMENT,
+    id          INTEGER PRIMARY KEY,
     name        TEXT    NOT NULL,
     description TEXT    NOT NULL DEFAULT '',
     price       REAL    NOT NULL,
@@ -29,6 +29,7 @@ await client.execute("DELETE FROM products");
 
 const seed: NewProduct[] = [
   {
+    id: 1,
     name: 'MacBook Pro 16" M3 Pro',
     description:
       "Portátil profesional con chip Apple M3 Pro, 18GB RAM, 512GB SSD. Pantalla Liquid Retina XDR.",
@@ -50,6 +51,7 @@ const seed: NewProduct[] = [
     discount: 10,
   },
   {
+    id: 2,
     name: "Samsung Galaxy S24 Ultra",
     description:
       "Smartphone flagship con S Pen integrado, cámara 200MP, procesador Snapdragon 8 Gen 3.",
@@ -75,6 +77,7 @@ const seed: NewProduct[] = [
     discount: 0,
   },
   {
+    id: 3,
     name: "Sony WH-1000XM5",
     description:
       "Auriculares inalámbricos con cancelación de ruido líder del sector. Hasta 30h de batería.",
@@ -96,6 +99,7 @@ const seed: NewProduct[] = [
     discount: 15,
   },
   {
+    id: 4,
     name: "NVIDIA RTX 4080 Super",
     description:
       "Tarjeta gráfica para gaming y creatividad. 16GB GDDR6X, ray tracing avanzado, DLSS 3.",
@@ -117,6 +121,7 @@ const seed: NewProduct[] = [
     discount: 5,
   },
   {
+    id: 5,
     name: 'iPad Pro 13" M4',
     description:
       "Tablet profesional con chip M4, pantalla OLED Ultra Retina XDR, Apple Pencil Pro compatible.",
@@ -142,6 +147,7 @@ const seed: NewProduct[] = [
     discount: 0,
   },
   {
+    id: 6,
     name: 'LG OLED C4 55"',
     description:
       "Smart TV OLED 4K con procesador α9 Gen7, Dolby Vision, compatibilidad con gaming 120Hz VRR.",
@@ -163,6 +169,7 @@ const seed: NewProduct[] = [
     discount: 20,
   },
   {
+    id: 7,
     name: "Logitech MX Master 3S",
     description:
       "Ratón inalámbrico avanzado para productividad. Scroll electromagnético silencioso, 8000 DPI.",
@@ -184,6 +191,7 @@ const seed: NewProduct[] = [
     discount: 0,
   },
   {
+    id: 8,
     name: "Samsung 990 Pro 2TB NVMe",
     description:
       "SSD NVMe PCIe 4.0 con velocidades de lectura hasta 7.450 MB/s. Ideal para gaming y edición.",
@@ -205,6 +213,7 @@ const seed: NewProduct[] = [
     discount: 10,
   },
   {
+    id: 9,
     name: "Apple Watch Series 10",
     description:
       "Smartwatch con pantalla Always-On más grande, detección de apnea del sueño, GPS.",
@@ -230,6 +239,7 @@ const seed: NewProduct[] = [
     discount: 5,
   },
   {
+    id: 10,
     name: "Asus ROG Ally X",
     description:
       "Consola portátil gaming con AMD Ryzen Z1 Extreme, pantalla 1080p 120Hz, 24GB RAM.",

@@ -3,7 +3,7 @@ import { sql } from "drizzle-orm";
 import { int, real, sqliteTable, text } from "drizzle-orm/sqlite-core";
 
 export const products = sqliteTable("products", {
-  id: int("id").primaryKey({ autoIncrement: true }),
+  id: int("id").primaryKey(),
   name: text("name").notNull(),
   description: text("description").notNull().default(""),
   price: real("price").notNull(),
