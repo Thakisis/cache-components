@@ -1,7 +1,7 @@
 "use server";
 
 import { eq } from "drizzle-orm";
-
+import { updateTag } from "next/cache";
 import { db } from "@/db";
 import { type Product, products } from "@/db/schema";
 
