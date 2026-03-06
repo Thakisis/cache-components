@@ -33,19 +33,19 @@ const seed: NewProduct[] = [
     id: 1,
     name: 'MacBook Pro 16" M3 Pro',
     description:
-      "Portátil profesional con chip Apple M3 Pro, 18GB RAM, 512GB SSD. Pantalla Liquid Retina XDR.",
+      "Professional laptop with Apple M3 Pro chip, 18GB RAM, 512GB SSD. Liquid Retina XDR display.",
     price: 2999.99,
-    category: "Portátiles",
+    category: "Laptops",
     brand: "Apple",
     stock: 25,
     images: [
       {
         url: "https://fdn2.gsmarena.com/vv/bigpic/apple-macbook-pro-16-2023.jpg",
-        alt: "MacBook Pro 16 M3 Pro vista frontal",
+        alt: "MacBook Pro 16 M3 Pro front view",
       },
       {
         url: "https://placehold.co/800x600?text=MacBook+Pro+16+Side",
-        alt: "MacBook Pro 16 M3 Pro vista lateral",
+        alt: "MacBook Pro 16 M3 Pro side view",
       },
     ],
     rating: 4.9,
@@ -55,7 +55,7 @@ const seed: NewProduct[] = [
     id: 2,
     name: "Samsung Galaxy S24 Ultra",
     description:
-      "Smartphone flagship con S Pen integrado, cámara 200MP, procesador Snapdragon 8 Gen 3.",
+      "Flagship smartphone with integrated S Pen, 200MP camera, Snapdragon 8 Gen 3 processor.",
     price: 1299.99,
     category: "Smartphones",
     brand: "Samsung",
@@ -63,15 +63,15 @@ const seed: NewProduct[] = [
     images: [
       {
         url: "https://fdn2.gsmarena.com/vv/pics/samsung/samsung-galaxy-s24-ultra-5g-sm-s928-0.jpg",
-        alt: "Samsung Galaxy S24 Ultra frontal",
+        alt: "Samsung Galaxy S24 Ultra front",
       },
       {
         url: "https://fdn2.gsmarena.com/vv/pics/samsung/samsung-galaxy-s24-ultra-5g-sm-s928-1.jpg",
-        alt: "Samsung Galaxy S24 Ultra trasera",
+        alt: "Samsung Galaxy S24 Ultra back",
       },
       {
         url: "https://fdn2.gsmarena.com/vv/pics/samsung/samsung-galaxy-s24-ultra-5g-sm-s928-2.jpg",
-        alt: "Samsung Galaxy S24 Ultra con S Pen",
+        alt: "Samsung Galaxy S24 Ultra with S Pen",
       },
     ],
     rating: 4.8,
@@ -81,7 +81,7 @@ const seed: NewProduct[] = [
     id: 3,
     name: "Sony WH-1000XM5",
     description:
-      "Auriculares inalámbricos con cancelación de ruido líder del sector. Hasta 30h de batería.",
+      "Wireless headphones with industry-leading noise cancellation. Up to 30 hours of battery life.",
     price: 349.99,
     category: "Audio",
     brand: "Sony",
@@ -89,11 +89,11 @@ const seed: NewProduct[] = [
     images: [
       {
         url: "https://www.sony.com/image/5d02da5df552836db894cead731a871b?fmt=png-alpha&wid=800",
-        alt: "Sony WH-1000XM5 vista frontal",
+        alt: "Sony WH-1000XM5 front view",
       },
       {
         url: "https://www.sony.com/image/0b8f871e4fa290a6c4b898a59da40a9f?fmt=png-alpha&wid=800",
-        alt: "Sony WH-1000XM5 plegados",
+        alt: "Sony WH-1000XM5 folded",
       },
     ],
     rating: 4.8,
@@ -103,19 +103,19 @@ const seed: NewProduct[] = [
     id: 4,
     name: "NVIDIA RTX 4080 Super",
     description:
-      "Tarjeta gráfica para gaming y creatividad. 16GB GDDR6X, ray tracing avanzado, DLSS 3.",
+      "Graphics card for gaming and creativity. 16GB GDDR6X, advanced ray tracing, DLSS 3.",
     price: 999.99,
-    category: "Componentes",
+    category: "Components",
     brand: "NVIDIA",
     stock: 15,
     images: [
       {
         url: "https://www.nvidia.com/content/dam/en-zz/Solutions/geforce/ada/rtx-4080-super/geforce-rtx-4080-super-shop-630-d.jpg",
-        alt: "NVIDIA RTX 4080 Super vista superior",
+        alt: "NVIDIA RTX 4080 Super top view",
       },
       {
         url: "https://www.nvidia.com/content/dam/en-zz/Solutions/geforce/ada/rtx-4080-super/geforce-rtx-4080-super-oc-edition-gallery-d.jpg",
-        alt: "NVIDIA RTX 4080 Super conectores",
+        alt: "NVIDIA RTX 4080 Super connectors",
       },
     ],
     rating: 4.7,
@@ -125,7 +125,7 @@ const seed: NewProduct[] = [
     id: 5,
     name: 'iPad Pro 13" M4',
     description:
-      "Tablet profesional con chip M4, pantalla OLED Ultra Retina XDR, Apple Pencil Pro compatible.",
+      "Professional tablet with M4 chip, Ultra Retina XDR OLED display, Apple Pencil Pro compatible.",
     price: 1299.99,
     category: "Tablets",
     brand: "Apple",
@@ -133,15 +133,15 @@ const seed: NewProduct[] = [
     images: [
       {
         url: "https://fdn2.gsmarena.com/vv/pics/apple/apple-ipad-pro-13-2024-1.jpg",
-        alt: "iPad Pro 13 M4 frontal",
+        alt: "iPad Pro 13 M4 front",
       },
       {
         url: "https://fdn2.gsmarena.com/vv/pics/apple/apple-ipad-pro-13-2024-2.jpg",
-        alt: "iPad Pro 13 M4 trasera",
+        alt: "iPad Pro 13 M4 back",
       },
       {
         url: "https://fdn2.gsmarena.com/vv/pics/apple/apple-ipad-pro-13-2024-3.jpg",
-        alt: "iPad Pro 13 M4 con Apple Pencil",
+        alt: "iPad Pro 13 M4 with Apple Pencil",
       },
     ],
     rating: 4.9,
@@ -151,19 +151,19 @@ const seed: NewProduct[] = [
     id: 6,
     name: 'LG OLED C4 55"',
     description:
-      "Smart TV OLED 4K con procesador α9 Gen7, Dolby Vision, compatibilidad con gaming 120Hz VRR.",
+      "4K OLED Smart TV with α9 Gen7 processor, Dolby Vision, 120Hz VRR gaming support.",
     price: 1499.99,
-    category: "Televisores",
+    category: "Televisions",
     brand: "LG",
     stock: 20,
     images: [
       {
         url: "https://gscs-b2c.lge.com/downloadFile?fileId=nHZ1EVkm5G6HQKA1EvHBdA",
-        alt: "LG OLED C4 55 pulgadas frontal",
+        alt: "LG OLED C4 55 inch front",
       },
       {
         url: "https://placehold.co/800x600?text=LG+OLED+C4+Side",
-        alt: "LG OLED C4 55 pulgadas lateral",
+        alt: "LG OLED C4 55 inch side",
       },
     ],
     rating: 4.8,
@@ -173,19 +173,19 @@ const seed: NewProduct[] = [
     id: 7,
     name: "Logitech MX Master 3S",
     description:
-      "Ratón inalámbrico avanzado para productividad. Scroll electromagnético silencioso, 8000 DPI.",
+      "Advanced wireless mouse for productivity. Silent electromagnetic scroll wheel, 8000 DPI.",
     price: 99.99,
-    category: "Periféricos",
+    category: "Peripherals",
     brand: "Logitech",
     stock: 120,
     images: [
       {
         url: "https://resource.logitech.com/w_692,c_lpad,ar_4:3,q_auto,f_auto,dpr_1.0/d_transparent.gif/content/dam/logitech/en/products/mice/mx-master-3s/gallery/mx-master-3s-mouse-top-view-graphite.png",
-        alt: "Logitech MX Master 3S vista superior",
+        alt: "Logitech MX Master 3S top view",
       },
       {
         url: "https://resource.logitech.com/w_692,c_lpad,ar_4:3,q_auto,f_auto,dpr_1.0/d_transparent.gif/content/dam/logitech/en/products/mice/mx-master-3s/gallery/mx-master-3s-mouse-side-view-graphite.png",
-        alt: "Logitech MX Master 3S vista lateral",
+        alt: "Logitech MX Master 3S side view",
       },
     ],
     rating: 4.7,
@@ -195,19 +195,19 @@ const seed: NewProduct[] = [
     id: 8,
     name: "Samsung 990 Pro 2TB NVMe",
     description:
-      "SSD NVMe PCIe 4.0 con velocidades de lectura hasta 7.450 MB/s. Ideal para gaming y edición.",
+      "PCIe 4.0 NVMe SSD with read speeds up to 7,450 MB/s. Ideal for gaming and video editing.",
     price: 179.99,
-    category: "Almacenamiento",
+    category: "Storage",
     brand: "Samsung",
     stock: 200,
     images: [
       {
         url: "https://image-us.samsung.com/SamsungUS/home/computing/memory-storage/internal-ssd/06202023/MZ-V9P2T0B_001_Front_Black.jpg",
-        alt: "Samsung 990 Pro 2TB NVMe frontal",
+        alt: "Samsung 990 Pro 2TB NVMe front",
       },
       {
         url: "https://image-us.samsung.com/SamsungUS/home/computing/memory-storage/internal-ssd/06202023/MZ-V9P2T0B_002_Back_Black.jpg",
-        alt: "Samsung 990 Pro 2TB NVMe trasera",
+        alt: "Samsung 990 Pro 2TB NVMe back",
       },
     ],
     rating: 4.8,
@@ -217,7 +217,7 @@ const seed: NewProduct[] = [
     id: 9,
     name: "Apple Watch Series 10",
     description:
-      "Smartwatch con pantalla Always-On más grande, detección de apnea del sueño, GPS.",
+      "Smartwatch with larger Always-On display, sleep apnea detection, GPS.",
     price: 399.99,
     category: "Wearables",
     brand: "Apple",
@@ -225,15 +225,15 @@ const seed: NewProduct[] = [
     images: [
       {
         url: "https://fdn2.gsmarena.com/vv/pics/apple/apple-watch-series10-1.jpg",
-        alt: "Apple Watch Series 10 esfera frontal",
+        alt: "Apple Watch Series 10 front face",
       },
       {
         url: "https://fdn2.gsmarena.com/vv/pics/apple/apple-watch-series10-2.jpg",
-        alt: "Apple Watch Series 10 lateral",
+        alt: "Apple Watch Series 10 side",
       },
       {
         url: "https://fdn2.gsmarena.com/vv/pics/apple/apple-watch-series10-3.jpg",
-        alt: "Apple Watch Series 10 con correa",
+        alt: "Apple Watch Series 10 with band",
       },
     ],
     rating: 4.7,
@@ -243,7 +243,7 @@ const seed: NewProduct[] = [
     id: 10,
     name: "Asus ROG Ally X",
     description:
-      "Consola portátil gaming con AMD Ryzen Z1 Extreme, pantalla 1080p 120Hz, 24GB RAM.",
+      "Portable gaming console with AMD Ryzen Z1 Extreme, 1080p 120Hz display, 24GB RAM.",
     price: 799.99,
     category: "Gaming",
     brand: "Asus",
@@ -251,11 +251,11 @@ const seed: NewProduct[] = [
     images: [
       {
         url: "https://dlcdnwebimgs.asus.com/gain/B8E5E8B0-5D3B-4C7C-B6B7-4B4B5B0E5B5E/w800/h600",
-        alt: "Asus ROG Ally X frontal",
+        alt: "Asus ROG Ally X front",
       },
       {
         url: "https://placehold.co/800x600?text=ROG+Ally+X+Back",
-        alt: "Asus ROG Ally X trasera",
+        alt: "Asus ROG Ally X back",
       },
     ],
     rating: 4.6,

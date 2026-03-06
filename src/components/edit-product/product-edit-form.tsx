@@ -58,18 +58,14 @@ export function ProductEditForm({ product }: ProductEditFormProps) {
     "stock",
   ];
 
-  const hasChanges = useMemo(() => {
-    return editableKeys.some((key) => product[key] !== edited[key]);
-  }, [product, edited]);
+  const hasChanges = editableKeys.some((key) => product[key] !== edited[key]);
 
-  const changedFields = useMemo(() => {
-    const fields: EditableKey[] = [];
-    for (const key of editableKeys) {
-      if (product[key] !== edited[key]) fields.push(key);
+  const changedFields = editableKeys.reduce((changed, key) => {
+    if (product[key] !== edited[key]) {
+      changed.add(key);
     }
-    return new Set(fields);
-  }, [product, edited]);
-
+    return changed;
+  }, new Set<EditableKey>());
   function handleReset() {
     setEdited({ ...product });
   }
