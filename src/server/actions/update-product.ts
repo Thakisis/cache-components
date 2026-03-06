@@ -3,25 +3,30 @@
 import { eq } from "drizzle-orm";
 import { revalidateTag } from "next/cache";
 import { db } from "@/db";
-import { products, type Product } from "@/db/schema";
-
+import { type Product, products } from "@/db/schema";
 
 type EditableFields = Omit<Product, "id" | "createdAt" | "images">;
 type EditableKey = keyof EditableFields;
 
 const EDITABLE_KEYS: EditableKey[] = [
-  "name", "description", "category", "brand",
-  "price", "discount", "rating", "stock",
+  "name",
+  "description",
+  "category",
+  "brand",
+  "price",
+  "discount",
+  "rating",
+  "stock",
 ];
 
 const FIELD_CACHE_TAGS: Partial<Record<EditableKey, (id: number) => string>> = {
-  name:        (id) => `name-${id}`,
+  name: (id) => `name-${id}`,
   description: (id) => `description-${id}`,
-  category:    (id) => `badge-${id}`,
-  brand:       (id) => `brand-${id}`,
-  price:       (id) => `price-${id}`,
-  discount:    (id) => `price-${id}`,
-  rating:      (id) => `rating-${id}`,
+  category: (id) => `badge-${id}`,
+  brand: (id) => `brand-${id}`,
+  price: (id) => `price-${id}`,
+  discount: (id) => `price-${id}`,
+  rating: (id) => `rating-${id}`,
 };
 
 const IMAGE_TRIGGER_FIELDS: EditableKey[] = ["name", "description"];
@@ -34,23 +39,23 @@ export type UpdateProductState = {
 
 export async function updateProductAction(
   _prevState: UpdateProductState,
-  formData: FormData
+  formData: FormData,
 ): Promise<UpdateProductState> {
   const original = JSON.parse(formData.get("original") as string) as Product;
 
   const edited: EditableFields = {
-    name:        formData.get("name") as string,
+    name: formData.get("name") as string,
     description: formData.get("description") as string,
-    category:    formData.get("category") as string,
-    brand:       formData.get("brand") as string,
-    price:       parseFloat(formData.get("price") as string) || 0,
-    discount:    parseFloat(formData.get("discount") as string) || 0,
-    rating:      parseFloat(formData.get("rating") as string) || 0,
-    stock:       parseInt(formData.get("stock") as string, 10) || 0,
+    category: formData.get("category") as string,
+    brand: formData.get("brand") as string,
+    price: parseFloat(formData.get("price") as string) || 0,
+    discount: parseFloat(formData.get("discount") as string) || 0,
+    rating: parseFloat(formData.get("rating") as string) || 0,
+    stock: parseInt(formData.get("stock") as string, 10) || 0,
   };
 
   const changedFields = EDITABLE_KEYS.filter(
-    (key) => original[key] !== edited[key]
+    (key) => original[key] !== edited[key],
   );
 
   if (changedFields.length === 0) {
@@ -58,7 +63,7 @@ export async function updateProductAction(
   }
 
   const patch = Object.fromEntries(
-    changedFields.map((key) => [key, edited[key]])
+    changedFields.map((key) => [key, edited[key]]),
   ) as Partial<EditableFields>;
 
   try {
@@ -74,10 +79,10 @@ export async function updateProductAction(
     if (IMAGE_TRIGGER_FIELDS.some((f) => changedFields.includes(f))) {
       tagsToRevalidate.add(`image-${original.id}`);
     }
-
+    tagsToRevalidate.add(`product-${original.id}`);
     for (const tag of tagsToRevalidate) {
       console.log("revalidando", tag);
-      revalidateTag(tag,"max");
+      revalidateTag(tag, "max");
     }
 
     return { status: "success", changedFields };
