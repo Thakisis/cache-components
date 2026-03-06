@@ -1,8 +1,7 @@
 "use server";
 
 import { eq } from "drizzle-orm";
-import { revalidateTag } from "next/cache";
-import { redirect } from "next/navigation";
+
 import { db } from "@/db";
 import { type Product, products } from "@/db/schema";
 
@@ -83,8 +82,10 @@ export async function updateProductAction(
     tagsToRevalidate.add(`product-${original.id}`);
     for (const tag of tagsToRevalidate) {
       console.log("revalidando", tag);
-      revalidateTag(tag, "max");
+      updateTag(tag);
     }
+
+    return { status: "success", changedFields };
   } catch (error) {
     return {
       status: "error",
@@ -92,5 +93,4 @@ export async function updateProductAction(
       changedFields,
     };
   }
-  redirect("/");
 }
