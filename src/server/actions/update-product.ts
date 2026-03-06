@@ -2,6 +2,7 @@
 
 import { eq } from "drizzle-orm";
 import { revalidateTag } from "next/cache";
+import { redirect } from "next/navigation";
 import { db } from "@/db";
 import { type Product, products } from "@/db/schema";
 
@@ -84,8 +85,6 @@ export async function updateProductAction(
       console.log("revalidando", tag);
       revalidateTag(tag, "max");
     }
-
-    return { status: "success", changedFields };
   } catch (error) {
     return {
       status: "error",
@@ -93,4 +92,5 @@ export async function updateProductAction(
       changedFields,
     };
   }
+  redirect("/");
 }
