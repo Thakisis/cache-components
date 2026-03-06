@@ -1,6 +1,7 @@
 import { Package, Star } from "lucide-react";
 import { cacheTag } from "next/cache";
 import Image from "next/image";
+import { connection } from "next/server";
 import { Suspense } from "react";
 import { Badge } from "@/components/ui/badge";
 import type { Product } from "@/db/schema";
@@ -9,7 +10,7 @@ import { cn } from "@/lib/utils";
 import { getProduct } from "@/server/queries/products";
 import EditButton from "./edit-button";
 import { UpdateHighlight } from "./update-hightlight";
-import { connection } from "next/server";
+
 interface ProductImage {
   url: string;
   alt: string;
@@ -18,11 +19,8 @@ interface ProductImage {
 export interface ProductKey {
   id: number;
 }
-type ProductPromise = Promise<Product | null>;
 
 export default async function ProductCard({ id }: ProductKey) {
-  const productPromise = getProduct(id);
-
   return (
     <article className="w-95 overflow-hidden rounded-2xl border border-border bg-card shadow-xl shadow-black/20 transition-shadow duration-300 hover:shadow-2xl hover:shadow-black/30">
       {/* <Suspense fallback={<div>loading</div>}>
@@ -36,14 +34,14 @@ export default async function ProductCard({ id }: ProductKey) {
           <ProductDescription id={id} />
         </Suspense>
         <div className="flex items-center justify-between">
-           <Suspense fallback={<div>badge...</div>}>
+          <Suspense fallback={<div>badge...</div>}>
             <ProductBadge id={id} />
           </Suspense>
           <Suspense fallback={<div>brand...</div>}>
             <ProductBrand id={id} />
           </Suspense>
         </div>
-        
+
         <Suspense fallback={<div>rating...</div>}>
           <ProductRating id={id} />
         </Suspense>
@@ -52,7 +50,7 @@ export default async function ProductCard({ id }: ProductKey) {
         </Suspense>
         <Suspense fallback={<div>stock...</div>}>
           <Stock id={id} />
-        </Suspense> 
+        </Suspense>
         <EditButton id={id} />
       </div>
     </article>
@@ -69,7 +67,7 @@ export async function ProductName({ id }: { id: number }) {
   const date = new Date();
 
   return (
-    <UpdateHighlight updatedAt={date} >
+    <UpdateHighlight updatedAt={date}>
       <h2 className="text-lg font-bold leading-snug text-card-foreground text-balance">
         {name}
       </h2>
@@ -84,7 +82,7 @@ export async function ProductDescription({ id }: { id: number }) {
   const { description } = productData;
   const date = new Date();
   return (
-    <UpdateHighlight updatedAt={date} >
+    <UpdateHighlight updatedAt={date}>
       <p className="text-sm leading-relaxed text-muted-foreground">
         {description}
       </p>
@@ -92,12 +90,11 @@ export async function ProductDescription({ id }: { id: number }) {
   );
 }
 
-
 async function Price({ id }: { id: number }) {
-   "use cache";
-  cacheTag(`price-${id}`,`discount-${id}`);
+  "use cache";
+  cacheTag(`price-${id}`, `discount-${id}`);
   const productData = await getProduct(id);
-  
+
   if (!productData) return null;
   const { discount, price } = productData;
 
@@ -119,14 +116,14 @@ async function Price({ id }: { id: number }) {
   );
 }
 async function Stock({ id }: { id: number }) {
-    await connection(); // le dice a Next.js que este componente es dinámico
+  await connection(); // le dice a Next.js que este componente es dinámico
   const productData = await getProduct(id);
   if (!productData) return null;
   const { stock } = productData;
-const date = new Date();
+  const date = new Date();
   return (
     <UpdateHighlight updatedAt={date}>
-            <div className="flex items-end justify-between">
+      <div className="flex items-end justify-between">
         <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
           <Package className="size-3.5" />
           <span>{stock > 0 ? `${stock} in stock` : "Out of stock"}</span>
@@ -137,10 +134,10 @@ const date = new Date();
 }
 
 export async function ProductRating({ id }: { id: number }) {
-    "use cache";
+  "use cache";
   cacheTag(`rating-${id}`);
   const productData = await getProduct(id);
-  
+
   if (!productData) return null;
   const { rating } = productData;
   const date = new Date();
@@ -148,8 +145,7 @@ export async function ProductRating({ id }: { id: number }) {
     <UpdateHighlight updatedAt={date}>
       <StarRating rating={rating} />
     </UpdateHighlight>
-    )
-  
+  );
 }
 export async function ProductBrand({ id }: { id: number }) {
   "use cache";
@@ -160,9 +156,9 @@ export async function ProductBrand({ id }: { id: number }) {
   const date = new Date();
   return (
     <UpdateHighlight updatedAt={date}>
-    <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-      {brand}
-    </span>
+      <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+        {brand}
+      </span>
     </UpdateHighlight>
   );
 }
@@ -176,9 +172,9 @@ export async function ProductBadge({ id }: { id: number }) {
   const date = new Date();
   return (
     <UpdateHighlight updatedAt={date}>
-    <Badge variant="secondary" className="text-xs font-medium">
-      {category}
-    </Badge>
+      <Badge variant="secondary" className="text-xs font-medium">
+        {category}
+      </Badge>
     </UpdateHighlight>
   );
 }
