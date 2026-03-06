@@ -10,12 +10,11 @@ import {
   Star,
   Tag,
 } from "lucide-react";
-import { useMemo, useState, useActionState } from "react";
+import { useActionState, useMemo, useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { updateProductAction, type UpdateProductState } from "@/server/actions/update-product";
 import {
   Select,
   SelectContent,
@@ -25,6 +24,10 @@ import {
 } from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
 import { Textarea } from "@/components/ui/textarea";
+import {
+  type UpdateProductState,
+  updateProductAction,
+} from "@/server/actions/update-product";
 import type { Product } from "@/types/product";
 
 const DISCOUNT_OPTIONS = [0, 5, 10, 15, 20] as const;
@@ -41,12 +44,18 @@ export function ProductEditForm({ product }: ProductEditFormProps) {
   const [edited, setEdited] = useState<Product>({ ...product });
   const [state, formAction, isPending] = useActionState(
     updateProductAction,
-    initialState
+    initialState,
   );
 
   const editableKeys: EditableKey[] = [
-    "name", "description", "category", "brand",
-    "price", "discount", "rating", "stock",
+    "name",
+    "description",
+    "category",
+    "brand",
+    "price",
+    "discount",
+    "rating",
+    "stock",
   ];
 
   const hasChanges = useMemo(() => {

@@ -19,8 +19,11 @@ interface ProductImage {
 export interface ProductKey {
   id: number;
 }
+type ProductPromise = Promise<Product | null>;
 
 export default async function ProductCard({ id }: ProductKey) {
+  const productPromise = getProduct(id);
+
   return (
     <article className="w-95 overflow-hidden rounded-2xl border border-border bg-card shadow-xl shadow-black/20 transition-shadow duration-300 hover:shadow-2xl hover:shadow-black/30">
       {/* <Suspense fallback={<div>loading</div>}>

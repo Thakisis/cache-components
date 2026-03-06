@@ -1,11 +1,11 @@
 "use client";
 import type * as React from "react";
-import { useEffect, useRef,useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from "@/components/ui/tooltip"
+} from "@/components/ui/tooltip";
 
 export function UpdateHighlight({
   updatedAt,
@@ -19,8 +19,8 @@ export function UpdateHighlight({
   useEffect(() => {
     const now = new Date();
     const diff = Math.abs(now.getTime() - updatedAt.getTime());
-    
-    if (diff < 5000) {
+
+    if (diff < 2000) {
       ref.current?.animate(
         [
           { outline: "2px solid #3b82f6", offset: 0 },
@@ -33,11 +33,11 @@ export function UpdateHighlight({
   }, [updatedAt]);
   return (
     <Tooltip>
-      <TooltipTrigger >
-    <div className="w-fit" ref={ref}>
-      {children}
-    </div>
-    </TooltipTrigger>
+      <TooltipTrigger>
+        <div className="w-fit" ref={ref}>
+          {children}
+        </div>
+      </TooltipTrigger>
       <TooltipContent side="top" align="start" className="w-fit">
         <TimeSinceUpdate updatedAt={updatedAt} />
       </TooltipContent>
@@ -45,13 +45,12 @@ export function UpdateHighlight({
   );
 }
 
-
 export function TimeSinceUpdate({ updatedAt }: { updatedAt: Date }) {
   const [elapsed, setElapsed] = useState(0);
 
   useEffect(() => {
     setElapsed(Math.floor((Date.now() - updatedAt.getTime()) / 1000));
-    
+
     const interval = setInterval(() => {
       setElapsed(Math.floor((Date.now() - updatedAt.getTime()) / 1000));
     }, 1000);
@@ -61,13 +60,10 @@ export function TimeSinceUpdate({ updatedAt }: { updatedAt: Date }) {
 
   const format = (seconds: number) => {
     if (seconds < 60) return `${seconds}s ago`;
-    if (seconds < 3600) return `${Math.floor(seconds / 60)}m ${seconds % 60}s ago`;
+    if (seconds < 3600)
+      return `${Math.floor(seconds / 60)}m ${seconds % 60}s ago`;
     return `${Math.floor(seconds / 3600)}h ${Math.floor((seconds % 3600) / 60)}m ago`;
   };
 
-  return (
-    <span className="text-xs font-mono">
-      {format(elapsed)}
-    </span>
-  );
+  return <span className="text-xs font-mono">{format(elapsed)}</span>;
 }

@@ -1,4 +1,5 @@
 // db/seed.ts
+/** biome-ignore-all lint/style/noNonNullAssertion: usage of .env*/
 import { createClient } from "@libsql/client";
 import { drizzle } from "drizzle-orm/libsql";
 import { type NewProduct, products } from "../src/db/schema";
