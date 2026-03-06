@@ -17,6 +17,7 @@ export const products = sqliteTable("products", {
     .default(sql`'[]'`),
   rating: real("rating").notNull().default(0),
   createdAt: text("created_at").notNull().default(sql`(datetime('now'))`),
+  updatedAt: text("updated_at").notNull().default(sql`(datetime('now'))`),
 });
 
 // Tipos inferidos por Drizzle — no hace falta definirlos a mano

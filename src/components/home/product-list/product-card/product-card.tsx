@@ -4,7 +4,7 @@ import Image from "next/image";
 import { connection } from "next/server";
 import { Suspense } from "react";
 import { Badge } from "@/components/ui/badge";
-import type { Product } from "@/db/schema";
+
 import { generateCardImage } from "@/lib/generateImages";
 import { cn } from "@/lib/utils";
 import { getProduct } from "@/server/queries/products";
@@ -19,8 +19,6 @@ interface ProductImage {
 export interface ProductKey {
   id: number;
 }
-type ProductPromise = Promise<Product | null>;
-
 export default async function ProductCard({ id }: ProductKey) {
   return (
     <article className="w-95 overflow-hidden rounded-2xl border border-border bg-card shadow-xl shadow-black/20 transition-shadow duration-300 hover:shadow-2xl hover:shadow-black/30">
@@ -63,16 +61,10 @@ export async function ProductName({ id }: { id: number }) {
   const productData = await getProduct(id);
 
   if (!productData) return null;
-  const { name } = productData;
-  console.log("cacheado con tag", `name-${id}`);
-  const getCachedDate = async () => {
-    "use cache";
-    return new Date();
-  };
-  const date = await getCachedDate();
+  const { name, updatedAt } = productData;
 
   return (
-    <UpdateHighlight updatedAt={date}>
+    <UpdateHighlight updatedAt={updatedAt}>
       <h2 className="text-lg font-bold leading-snug text-card-foreground text-balance">
         {name}
       </h2>
@@ -84,14 +76,10 @@ export async function ProductDescription({ id }: { id: number }) {
   cacheTag(`description-${id}`);
   const productData = await getProduct(id);
   if (!productData) return null;
-  const { description } = productData;
-  const getCachedDate = async () => {
-    "use cache";
-    return new Date();
-  };
-  const date = await getCachedDate();
+  const { description, updatedAt } = productData;
+
   return (
-    <UpdateHighlight updatedAt={date}>
+    <UpdateHighlight updatedAt={updatedAt}>
       <p className="text-sm leading-relaxed text-muted-foreground">
         {description}
       </p>
@@ -105,16 +93,12 @@ async function Price({ id }: { id: number }) {
   const productData = await getProduct(id);
 
   if (!productData) return null;
-  const { discount, price } = productData;
+  const { discount, price, updatedAt } = productData;
 
   const discountedPrice = discount > 0 ? price * (1 - discount / 100) : price;
-  const getCachedDate = async () => {
-    "use cache";
-    return new Date();
-  };
-  const date = await getCachedDate();
+
   return (
-    <UpdateHighlight updatedAt={date}>
+    <UpdateHighlight updatedAt={updatedAt}>
       <div className="flex items-baseline gap-2">
         <span className="text-2xl font-bold text-card-foreground">
           ${discountedPrice.toFixed(2)}
@@ -132,14 +116,10 @@ async function Stock({ id }: { id: number }) {
   await connection(); // le dice a Next.js que este componente es dinámico
   const productData = await getProduct(id);
   if (!productData) return null;
-  const { stock } = productData;
-  const getCachedDate = async () => {
-    "use cache";
-    return new Date();
-  };
-  const date = await getCachedDate();
+  const { stock, updatedAt } = productData;
+
   return (
-    <UpdateHighlight updatedAt={date}>
+    <UpdateHighlight updatedAt={updatedAt}>
       <div className="flex items-end justify-between">
         <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
           <Package className="size-3.5" />
@@ -156,14 +136,10 @@ export async function ProductRating({ id }: { id: number }) {
   const productData = await getProduct(id);
 
   if (!productData) return null;
-  const { rating } = productData;
-  const getCachedDate = async () => {
-    "use cache";
-    return new Date();
-  };
-  const date = await getCachedDate();
+  const { rating, updatedAt } = productData;
+
   return (
-    <UpdateHighlight updatedAt={date}>
+    <UpdateHighlight updatedAt={updatedAt}>
       <StarRating rating={rating} />
     </UpdateHighlight>
   );
@@ -173,14 +149,10 @@ export async function ProductBrand({ id }: { id: number }) {
   cacheTag(`brand-${id}`);
   const productData = await getProduct(id);
   if (!productData) return null;
-  const { brand } = productData;
-  const getCachedDate = async () => {
-    "use cache";
-    return new Date();
-  };
-  const date = await getCachedDate();
+  const { brand, updatedAt } = productData;
+
   return (
-    <UpdateHighlight updatedAt={date}>
+    <UpdateHighlight updatedAt={updatedAt}>
       <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
         {brand}
       </span>
@@ -193,14 +165,10 @@ export async function ProductBadge({ id }: { id: number }) {
   cacheTag(`category-${id}`);
   const productData = await getProduct(id);
   if (!productData) return null;
-  const { category } = productData;
-  const getCachedDate = async () => {
-    "use cache";
-    return new Date();
-  };
-  const date = await getCachedDate();
+  const { category, updatedAt } = productData;
+
   return (
-    <UpdateHighlight updatedAt={date}>
+    <UpdateHighlight updatedAt={updatedAt}>
       <Badge variant="secondary" className="text-xs font-medium">
         {category}
       </Badge>
@@ -213,7 +181,7 @@ export async function ProductImage({ id }: { id: number }) {
   //cacheTag(`image-${id}`);
   const productData = await getProduct(id);
   if (!productData) return null;
-  const { name, description } = productData;
+  const { name, description, updatedAt } = productData;
 
   const imageUrl = await generateCardImage({
     id: id.toString(),

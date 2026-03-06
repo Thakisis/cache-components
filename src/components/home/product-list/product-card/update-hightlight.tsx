@@ -11,16 +11,16 @@ export function UpdateHighlight({
   updatedAt,
   children,
 }: {
-  updatedAt: Date;
+  updatedAt: string;
   children: React.ReactNode;
 }) {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const now = new Date();
-    const diff = Math.abs(now.getTime() - updatedAt.getTime());
+    const diff = Math.abs(now.getTime() - new Date(`${updatedAt} Z`).getTime());
 
-    if (diff < 2000) {
+    if (diff < 10000) {
       ref.current?.animate(
         [
           { outline: "2px solid #3b82f6", offset: 0 },
@@ -39,7 +39,7 @@ export function UpdateHighlight({
         </div>
       </TooltipTrigger>
       <TooltipContent side="top" align="start" className="w-fit">
-        <TimeSinceUpdate updatedAt={updatedAt} />
+        <TimeSinceUpdate updatedAt={new Date(`${updatedAt} Z`)} />
       </TooltipContent>
     </Tooltip>
   );

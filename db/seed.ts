@@ -22,7 +22,8 @@ await client.execute(`
     images      TEXT    NOT NULL DEFAULT '[]',
     rating      REAL    NOT NULL DEFAULT 0,
     discount    REAL    NOT NULL DEFAULT 0,
-    created_at  TEXT    NOT NULL DEFAULT (datetime('now'))
+    created_at  TEXT    NOT NULL DEFAULT (datetime('now')),
+    updated_at  TEXT    NOT NULL DEFAULT (datetime('now'))
   )
 `);
 

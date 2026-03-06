@@ -1,6 +1,6 @@
 "use server";
 
-import { eq } from "drizzle-orm";
+import { eq, sql } from "drizzle-orm";
 import { updateTag } from "next/cache";
 import { db } from "@/db";
 import { type Product, products } from "@/db/schema";
@@ -17,6 +17,7 @@ const EDITABLE_KEYS: EditableKey[] = [
   "discount",
   "rating",
   "stock",
+  "updatedAt",
 ];
 
 const FIELD_CACHE_TAGS: Partial<Record<EditableKey, (id: number) => string>> = {
@@ -43,7 +44,7 @@ export async function updateProductAction(
 ): Promise<UpdateProductState> {
   const original = JSON.parse(formData.get("original") as string) as Product;
 
-  const edited: EditableFields = {
+  const edited: Omit<EditableFields, "updatedAt"> = {
     name: formData.get("name") as string,
     description: formData.get("description") as string,
     category: formData.get("category") as string,
@@ -55,7 +56,9 @@ export async function updateProductAction(
   };
 
   const changedFields = EDITABLE_KEYS.filter(
-    (key) => original[key] !== edited[key],
+    (key) =>
+      key !== "updatedAt" &&
+      original[key] !== edited[key as keyof typeof edited],
   );
 
   if (changedFields.length === 0) {
@@ -63,11 +66,14 @@ export async function updateProductAction(
   }
 
   const patch = Object.fromEntries(
-    changedFields.map((key) => [key, edited[key]]),
+    changedFields.map((key) => [key, edited[key as keyof typeof edited]]),
   ) as Partial<EditableFields>;
 
   try {
-    await db.update(products).set(patch).where(eq(products.id, original.id));
+    await db
+      .update(products)
+      .set({ ...patch, updatedAt: sql`(datetime('now'))` })
+      .where(eq(products.id, original.id));
 
     const tagsToRevalidate = new Set<string>();
 
@@ -80,8 +86,8 @@ export async function updateProductAction(
       tagsToRevalidate.add(`image-${original.id}`);
     }
     tagsToRevalidate.add(`product-${original.id}`);
+
     for (const tag of tagsToRevalidate) {
-      console.log("revalidando", tag);
       updateTag(tag);
     }
 
