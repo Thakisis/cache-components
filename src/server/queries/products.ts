@@ -7,7 +7,20 @@ export async function getProducts() {
   return db.select().from(products);
 }
 
+
 export async function getProduct(id: number) {
-  const result = await db.select().from(products).where(eq(products.id, id));
+  const result = await db
+    .select()
+    .from(products)
+    .where(eq(products.id, id));
   return result[0] ?? null;
+}
+
+export const productsPromise = getProducts();
+
+
+// obtener los id de los 10 primeros productos
+export async function getProductIds(count = 10) {
+  "use cache";
+  return db.select({ id: products.id }).from(products).limit(count);
 }

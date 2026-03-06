@@ -1,8 +1,9 @@
-import { ComponentExample } from "@/components/component-example";
-import { getProducts } from "@/server/queries/products";
-export default async function Page() {
-  const products = await getProducts();
-  console.log(products);
+import Home from "@/components/home";
 
-  return <ComponentExample />;
+export default async function Page() {
+  return (
+    <div>
+      <Home />
+    </div>
+  );
 }

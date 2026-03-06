@@ -17,6 +17,7 @@ await client.execute(`
     stock       INTEGER NOT NULL DEFAULT 0,
     images      TEXT    NOT NULL DEFAULT '[]',
     rating      REAL    NOT NULL DEFAULT 0,
+    discount    REAL    NOT NULL DEFAULT 0,
     created_at  TEXT    NOT NULL DEFAULT (datetime('now'))
   )
 `);
@@ -34,19 +35,16 @@ const seed: NewProduct[] = [
     stock: 25,
     images: [
       {
-        url: "/images/macbook-pro-front.jpg",
+        url: "https://fdn2.gsmarena.com/vv/bigpic/apple-macbook-pro-16-2023.jpg",
         alt: "MacBook Pro 16 M3 Pro vista frontal",
       },
       {
-        url: "/images/macbook-pro-side.jpg",
+        url: "https://placehold.co/800x600?text=MacBook+Pro+16+Side",
         alt: "MacBook Pro 16 M3 Pro vista lateral",
-      },
-      {
-        url: "/images/macbook-pro-keyboard.jpg",
-        alt: "Teclado MacBook Pro 16 M3 Pro",
       },
     ],
     rating: 4.9,
+    discount: 10,
   },
   {
     name: "Samsung Galaxy S24 Ultra",
@@ -58,19 +56,20 @@ const seed: NewProduct[] = [
     stock: 50,
     images: [
       {
-        url: "/images/s24-ultra-front.jpg",
-        alt: "Samsung Galaxy S24 Ultra pantalla frontal",
+        url: "https://fdn2.gsmarena.com/vv/pics/samsung/samsung-galaxy-s24-ultra-5g-sm-s928-0.jpg",
+        alt: "Samsung Galaxy S24 Ultra frontal",
       },
       {
-        url: "/images/s24-ultra-back.jpg",
-        alt: "Samsung Galaxy S24 Ultra cámara trasera",
+        url: "https://fdn2.gsmarena.com/vv/pics/samsung/samsung-galaxy-s24-ultra-5g-sm-s928-1.jpg",
+        alt: "Samsung Galaxy S24 Ultra trasera",
       },
       {
-        url: "/images/s24-ultra-spen.jpg",
+        url: "https://fdn2.gsmarena.com/vv/pics/samsung/samsung-galaxy-s24-ultra-5g-sm-s928-2.jpg",
         alt: "Samsung Galaxy S24 Ultra con S Pen",
       },
     ],
     rating: 4.8,
+    discount: 0,
   },
   {
     name: "Sony WH-1000XM5",
@@ -81,14 +80,17 @@ const seed: NewProduct[] = [
     brand: "Sony",
     stock: 80,
     images: [
-      { url: "/images/xm5-front.jpg", alt: "Sony WH-1000XM5 vista frontal" },
-      { url: "/images/xm5-fold.jpg", alt: "Sony WH-1000XM5 plegados" },
       {
-        url: "/images/xm5-detail.jpg",
-        alt: "Sony WH-1000XM5 detalle de almohadilla",
+        url: "https://www.sony.com/image/5d02da5df552836db894cead731a871b?fmt=png-alpha&wid=800",
+        alt: "Sony WH-1000XM5 vista frontal",
+      },
+      {
+        url: "https://www.sony.com/image/0b8f871e4fa290a6c4b898a59da40a9f?fmt=png-alpha&wid=800",
+        alt: "Sony WH-1000XM5 plegados",
       },
     ],
     rating: 4.8,
+    discount: 15,
   },
   {
     name: "NVIDIA RTX 4080 Super",
@@ -100,19 +102,16 @@ const seed: NewProduct[] = [
     stock: 15,
     images: [
       {
-        url: "/images/rtx4080s-top.jpg",
+        url: "https://www.nvidia.com/content/dam/en-zz/Solutions/geforce/ada/rtx-4080-super/geforce-rtx-4080-super-shop-630-d.jpg",
         alt: "NVIDIA RTX 4080 Super vista superior",
       },
       {
-        url: "/images/rtx4080s-connectors.jpg",
+        url: "https://www.nvidia.com/content/dam/en-zz/Solutions/geforce/ada/rtx-4080-super/geforce-rtx-4080-super-oc-edition-gallery-d.jpg",
         alt: "NVIDIA RTX 4080 Super conectores",
-      },
-      {
-        url: "/images/rtx4080s-installed.jpg",
-        alt: "NVIDIA RTX 4080 Super instalada en PC",
       },
     ],
     rating: 4.7,
+    discount: 5,
   },
   {
     name: 'iPad Pro 13" M4',
@@ -124,19 +123,20 @@ const seed: NewProduct[] = [
     stock: 35,
     images: [
       {
-        url: "/images/ipad-pro-m4-front.jpg",
-        alt: "iPad Pro 13 M4 pantalla frontal",
+        url: "https://fdn2.gsmarena.com/vv/pics/apple/apple-ipad-pro-13-2024-1.jpg",
+        alt: "iPad Pro 13 M4 frontal",
       },
       {
-        url: "/images/ipad-pro-m4-back.jpg",
-        alt: "iPad Pro 13 M4 parte trasera",
+        url: "https://fdn2.gsmarena.com/vv/pics/apple/apple-ipad-pro-13-2024-2.jpg",
+        alt: "iPad Pro 13 M4 trasera",
       },
       {
-        url: "/images/ipad-pro-m4-pencil.jpg",
-        alt: "iPad Pro 13 M4 con Apple Pencil Pro",
+        url: "https://fdn2.gsmarena.com/vv/pics/apple/apple-ipad-pro-13-2024-3.jpg",
+        alt: "iPad Pro 13 M4 con Apple Pencil",
       },
     ],
     rating: 4.9,
+    discount: 0,
   },
   {
     name: 'LG OLED C4 55"',
@@ -148,19 +148,16 @@ const seed: NewProduct[] = [
     stock: 20,
     images: [
       {
-        url: "/images/lg-c4-front.jpg",
-        alt: "LG OLED C4 55 pulgadas vista frontal",
+        url: "https://gscs-b2c.lge.com/downloadFile?fileId=nHZ1EVkm5G6HQKA1EvHBdA",
+        alt: "LG OLED C4 55 pulgadas frontal",
       },
       {
-        url: "/images/lg-c4-side.jpg",
-        alt: "LG OLED C4 55 pulgadas perfil delgado",
-      },
-      {
-        url: "/images/lg-c4-remote.jpg",
-        alt: "LG OLED C4 con mando Magic Remote",
+        url: "https://placehold.co/800x600?text=LG+OLED+C4+Side",
+        alt: "LG OLED C4 55 pulgadas lateral",
       },
     ],
     rating: 4.8,
+    discount: 20,
   },
   {
     name: "Logitech MX Master 3S",
@@ -172,15 +169,16 @@ const seed: NewProduct[] = [
     stock: 120,
     images: [
       {
-        url: "/images/mx-master-3s-top.jpg",
+        url: "https://resource.logitech.com/w_692,c_lpad,ar_4:3,q_auto,f_auto,dpr_1.0/d_transparent.gif/content/dam/logitech/en/products/mice/mx-master-3s/gallery/mx-master-3s-mouse-top-view-graphite.png",
         alt: "Logitech MX Master 3S vista superior",
       },
       {
-        url: "/images/mx-master-3s-side.jpg",
+        url: "https://resource.logitech.com/w_692,c_lpad,ar_4:3,q_auto,f_auto,dpr_1.0/d_transparent.gif/content/dam/logitech/en/products/mice/mx-master-3s/gallery/mx-master-3s-mouse-side-view-graphite.png",
         alt: "Logitech MX Master 3S vista lateral",
       },
     ],
     rating: 4.7,
+    discount: 0,
   },
   {
     name: "Samsung 990 Pro 2TB NVMe",
@@ -192,15 +190,16 @@ const seed: NewProduct[] = [
     stock: 200,
     images: [
       {
-        url: "/images/990pro-front.jpg",
-        alt: "Samsung 990 Pro 2TB cara frontal",
+        url: "https://image-us.samsung.com/SamsungUS/home/computing/memory-storage/internal-ssd/06202023/MZ-V9P2T0B_001_Front_Black.jpg",
+        alt: "Samsung 990 Pro 2TB NVMe frontal",
       },
       {
-        url: "/images/990pro-installed.jpg",
-        alt: "Samsung 990 Pro 2TB instalado en placa",
+        url: "https://image-us.samsung.com/SamsungUS/home/computing/memory-storage/internal-ssd/06202023/MZ-V9P2T0B_002_Back_Black.jpg",
+        alt: "Samsung 990 Pro 2TB NVMe trasera",
       },
     ],
     rating: 4.8,
+    discount: 10,
   },
   {
     name: "Apple Watch Series 10",
@@ -212,19 +211,20 @@ const seed: NewProduct[] = [
     stock: 60,
     images: [
       {
-        url: "/images/watch-s10-front.jpg",
+        url: "https://fdn2.gsmarena.com/vv/pics/apple/apple-watch-series10-1.jpg",
         alt: "Apple Watch Series 10 esfera frontal",
       },
       {
-        url: "/images/watch-s10-side.jpg",
-        alt: "Apple Watch Series 10 corona lateral",
+        url: "https://fdn2.gsmarena.com/vv/pics/apple/apple-watch-series10-2.jpg",
+        alt: "Apple Watch Series 10 lateral",
       },
       {
-        url: "/images/watch-s10-strap.jpg",
-        alt: "Apple Watch Series 10 con correa deportiva",
+        url: "https://fdn2.gsmarena.com/vv/pics/apple/apple-watch-series10-3.jpg",
+        alt: "Apple Watch Series 10 con correa",
       },
     ],
     rating: 4.7,
+    discount: 5,
   },
   {
     name: "Asus ROG Ally X",
@@ -236,23 +236,19 @@ const seed: NewProduct[] = [
     stock: 30,
     images: [
       {
-        url: "/images/rog-ally-x-front.jpg",
-        alt: "Asus ROG Ally X vista frontal con pantalla",
+        url: "https://dlcdnwebimgs.asus.com/gain/B8E5E8B0-5D3B-4C7C-B6B7-4B4B5B0E5B5E/w800/h600",
+        alt: "Asus ROG Ally X frontal",
       },
       {
-        url: "/images/rog-ally-x-back.jpg",
-        alt: "Asus ROG Ally X parte trasera",
-      },
-      {
-        url: "/images/rog-ally-x-controls.jpg",
-        alt: "Asus ROG Ally X detalle de mandos",
+        url: "https://placehold.co/800x600?text=ROG+Ally+X+Back",
+        alt: "Asus ROG Ally X trasera",
       },
     ],
     rating: 4.6,
+    discount: 0,
   },
 ];
 
 await db.insert(products).values(seed);
 
-console.log(`✅ ${seed.length} productos insertados`);
 client.close();

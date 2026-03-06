@@ -10,6 +10,7 @@ export const products = sqliteTable("products", {
   category: text("category").notNull(),
   brand: text("brand").notNull(),
   stock: int("stock").notNull().default(0),
+  discount: real("discount").notNull().default(0), // porcentaje: 0-100
   images: text("images", { mode: "json" })
     .notNull()
     .$type<{ url: string; alt: string }[]>()
@@ -18,5 +19,6 @@ export const products = sqliteTable("products", {
   createdAt: text("created_at").notNull().default(sql`(datetime('now'))`),
 });
 
+// Tipos inferidos por Drizzle — no hace falta definirlos a mano
 export type Product = typeof products.$inferSelect;
 export type NewProduct = typeof products.$inferInsert;
