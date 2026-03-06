@@ -65,11 +65,11 @@ export async function ProductName({ id }: { id: number }) {
   if (!productData) return null;
   const { name } = productData;
   console.log("cacheado con tag", `name-${id}`);
-  const getCachedDate = () => {
+  const getCachedDate = async () => {
     "use cache";
     return new Date();
   };
-  const date = getCachedDate();
+  const date = await getCachedDate();
 
   return (
     <UpdateHighlight updatedAt={date}>
@@ -85,11 +85,11 @@ export async function ProductDescription({ id }: { id: number }) {
   const productData = await getProduct(id);
   if (!productData) return null;
   const { description } = productData;
-  const getCachedDate = () => {
+  const getCachedDate = async () => {
     "use cache";
     return new Date();
   };
-  const date = getCachedDate();
+  const date = await getCachedDate();
   return (
     <UpdateHighlight updatedAt={date}>
       <p className="text-sm leading-relaxed text-muted-foreground">
@@ -108,11 +108,11 @@ async function Price({ id }: { id: number }) {
   const { discount, price } = productData;
 
   const discountedPrice = discount > 0 ? price * (1 - discount / 100) : price;
-  const getCachedDate = () => {
+  const getCachedDate = async () => {
     "use cache";
     return new Date();
   };
-  const date = getCachedDate();
+  const date = await getCachedDate();
   return (
     <UpdateHighlight updatedAt={date}>
       <div className="flex items-baseline gap-2">
@@ -133,11 +133,11 @@ async function Stock({ id }: { id: number }) {
   const productData = await getProduct(id);
   if (!productData) return null;
   const { stock } = productData;
-  const getCachedDate = () => {
+  const getCachedDate = async () => {
     "use cache";
     return new Date();
   };
-  const date = getCachedDate();
+  const date = await getCachedDate();
   return (
     <UpdateHighlight updatedAt={date}>
       <div className="flex items-end justify-between">
@@ -157,11 +157,11 @@ export async function ProductRating({ id }: { id: number }) {
 
   if (!productData) return null;
   const { rating } = productData;
-  const getCachedDate = () => {
+  const getCachedDate = async () => {
     "use cache";
     return new Date();
   };
-  const date = getCachedDate();
+  const date = await getCachedDate();
   return (
     <UpdateHighlight updatedAt={date}>
       <StarRating rating={rating} />
@@ -174,11 +174,11 @@ export async function ProductBrand({ id }: { id: number }) {
   const productData = await getProduct(id);
   if (!productData) return null;
   const { brand } = productData;
-  const getCachedDate = () => {
+  const getCachedDate = async () => {
     "use cache";
     return new Date();
   };
-  const date = getCachedDate();
+  const date = await getCachedDate();
   return (
     <UpdateHighlight updatedAt={date}>
       <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
@@ -194,11 +194,11 @@ export async function ProductBadge({ id }: { id: number }) {
   const productData = await getProduct(id);
   if (!productData) return null;
   const { category } = productData;
-  const getCachedDate = () => {
+  const getCachedDate = async () => {
     "use cache";
     return new Date();
   };
-  const date = getCachedDate();
+  const date = await getCachedDate();
   return (
     <UpdateHighlight updatedAt={date}>
       <Badge variant="secondary" className="text-xs font-medium">
