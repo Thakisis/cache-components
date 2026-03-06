@@ -4,7 +4,6 @@ export type PageParams = {
   idproduct: string;
 };
 
-
 export default async function Page({
   params,
 }: {

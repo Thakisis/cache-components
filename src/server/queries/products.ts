@@ -16,7 +16,6 @@ export async function getProduct(id: number) {
   return result[0] ?? null;
 }
 
-export const productsPromise = getProducts();
 
 
 // obtener los id de los 10 primeros productos
