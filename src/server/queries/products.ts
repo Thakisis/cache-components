@@ -14,18 +14,33 @@ export async function getProduct(id: number) {
   const result = await db.select().from(products).where(eq(products.id, id));
   return result[0];
 }
-export async function getProductField<K extends keyof Product>(
-  id: number,
-  field: K,
-) {
+
+import { Column } from "drizzle-orm";
+
+export async function getProductField<
+  K extends keyof typeof products & keyof Product,
+>(id: number, field: K) {
   "use cache";
-  cacheTag(`${field}-${id}`);
-  const product = (await getProduct(id)) as Product | null;
+  cacheTag(`product-${id}`);
+
+  const col = products[field];
+  if (!(col instanceof Column)) return null;
+
+  const productslist = await db
+    .select({ value: col })
+    .from(products)
+    .where(eq(products.id, id));
+
+  const product = productslist[0];
   if (!product) return null;
-  const date = new Date(product.updatedAt).getTime();
+
+  const date = new Date(
+    (product as { updatedAt?: string }).updatedAt ?? "",
+  ).getTime();
+
   return {
-    [field]: product[field],
-    date: date,
+    [field]: product.value,
+    date,
   } as { [P in K]: Product[P] } & { date: number };
 }
 // obtener los id de los 10 primeros productos
