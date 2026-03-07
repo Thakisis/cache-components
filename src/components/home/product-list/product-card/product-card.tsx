@@ -172,7 +172,7 @@ async function Stock({ id }: { id: number }) {
 
 export async function ProductImage({ id }: { id: number }) {
   //"use cache";
-  //const name = await getProductField(id, "name");
+  const name = await getProductField(id, "name");
   const description = await getProductField(id, "description");
   if (!name || !description) return null;
 
