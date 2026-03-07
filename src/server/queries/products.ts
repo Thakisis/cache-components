@@ -21,7 +21,7 @@ export async function getProductField<
   K extends keyof typeof products & keyof Product,
 >(id: number, field: K) {
   "use cache";
-  cacheTag(`product-${id}`);
+  //cacheTag(`product-${id}`);
 
   const col = products[field];
   if (!(col instanceof Column)) return null;
@@ -43,6 +43,7 @@ export async function getProductField<
     date,
   } as { [P in K]: Product[P] } & { date: number };
 }
+
 // obtener los id de los 10 primeros productos
 export async function getProductIds(count = 10) {
   "use cache";

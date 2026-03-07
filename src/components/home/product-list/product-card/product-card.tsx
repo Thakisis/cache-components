@@ -52,7 +52,7 @@ export default async function ProductCard({ id }: ProductKey) {
 }
 export async function ProductName({ id }: { id: number }) {
   "use cache";
-  //cacheTag(`name-${id}`);
+  cacheTag(`name-${id}`);
   const data = await getProductField(id, "name");
   if (!data) return null;
   const { name, date } = data;
@@ -67,7 +67,7 @@ export async function ProductName({ id }: { id: number }) {
 
 export async function ProductDescription({ id }: { id: number }) {
   "use cache";
-  //cacheTag(`description-${id}`);
+  cacheTag(`description-${id}`);
   const data = await getProductField(id, "description");
   if (!data) return null;
   const { description, date } = data;
@@ -83,7 +83,7 @@ export async function ProductDescription({ id }: { id: number }) {
 
 async function Price({ id }: { id: number }) {
   "use cache";
-  //cacheTag(`price-${id}`, `discount-${id}`);
+  cacheTag(`price-${id}`, `discount-${id}`);
   const dataprice = await getProductField(id, "price");
   const datadiscount = await getProductField(id, "discount");
   if (!dataprice || !datadiscount) return null;
@@ -110,7 +110,7 @@ async function Price({ id }: { id: number }) {
 
 export async function ProductRating({ id }: { id: number }) {
   "use cache";
-  //cacheTag(`rating-${id}`);
+  cacheTag(`rating-${id}`);
   const data = await getProductField(id, "rating");
   if (!data) return null;
   const { rating, date } = data;
@@ -123,7 +123,7 @@ export async function ProductRating({ id }: { id: number }) {
 
 export async function ProductBrand({ id }: { id: number }) {
   "use cache";
-  //cacheTag(`brand-${id}`);
+  cacheTag(`brand-${id}`);
   const data = await getProductField(id, "brand");
   if (!data) return null;
   const { brand, date } = data;
@@ -138,7 +138,7 @@ export async function ProductBrand({ id }: { id: number }) {
 
 export async function ProductBadge({ id }: { id: number }) {
   "use cache";
-  //cacheTag(`category-${id}`);
+  cacheTag(`category-${id}`);
   const data = await getProductField(id, "category");
   if (!data) return null;
   const { category, date } = data;
