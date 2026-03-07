@@ -7,14 +7,9 @@ import { Badge } from "@/components/ui/badge";
 
 import { generateCardImage } from "@/lib/generateImages";
 import { cn } from "@/lib/utils";
-import { getProduct } from "@/server/queries/products";
+import { getProductField } from "@/server/queries/products";
 import EditButton from "./edit-button";
 import { UpdateHighlight } from "./update-hightlight";
-
-interface ProductImage {
-  url: string;
-  alt: string;
-}
 
 export interface ProductKey {
   id: number;
@@ -58,28 +53,27 @@ export default async function ProductCard({ id }: ProductKey) {
 export async function ProductName({ id }: { id: number }) {
   "use cache";
   cacheTag(`name-${id}`);
-  const productData = await getProduct(id);
-
-  if (!productData) return null;
-  const { name, updatedAt } = productData;
-
+  const data = await getProductField(id, "name");
+  if (!data) return null;
+  const { name, date } = data;
   return (
-    <UpdateHighlight updatedAt={updatedAt}>
+    <UpdateHighlight updatedAt={date}>
       <h2 className="text-lg font-bold leading-snug text-card-foreground text-balance">
         {name}
       </h2>
     </UpdateHighlight>
   );
 }
+
 export async function ProductDescription({ id }: { id: number }) {
   "use cache";
   cacheTag(`description-${id}`);
-  const productData = await getProduct(id);
-  if (!productData) return null;
-  const { description, updatedAt } = productData;
+  const data = await getProductField(id, "description");
+  if (!data) return null;
+  const { description, date } = data;
 
   return (
-    <UpdateHighlight updatedAt={updatedAt}>
+    <UpdateHighlight updatedAt={date}>
       <p className="text-sm leading-relaxed text-muted-foreground">
         {description}
       </p>
@@ -90,15 +84,16 @@ export async function ProductDescription({ id }: { id: number }) {
 async function Price({ id }: { id: number }) {
   "use cache";
   cacheTag(`price-${id}`, `discount-${id}`);
-  const productData = await getProduct(id);
-
-  if (!productData) return null;
-  const { discount, price, updatedAt } = productData;
+  const dataprice = await getProductField(id, "price");
+  const datadiscount = await getProductField(id, "discount");
+  if (!dataprice || !datadiscount) return null;
+  const { price, date } = dataprice;
+  const { discount } = datadiscount;
 
   const discountedPrice = discount > 0 ? price * (1 - discount / 100) : price;
 
   return (
-    <UpdateHighlight updatedAt={updatedAt}>
+    <UpdateHighlight updatedAt={date}>
       <div className="flex items-baseline gap-2">
         <span className="text-2xl font-bold text-card-foreground">
           ${discountedPrice.toFixed(2)}
@@ -112,47 +107,28 @@ async function Price({ id }: { id: number }) {
     </UpdateHighlight>
   );
 }
-async function Stock({ id }: { id: number }) {
-  await connection(); // le dice a Next.js que este componente es dinámico
-  const productData = await getProduct(id);
-  if (!productData) return null;
-  const { stock, updatedAt } = productData;
-
-  return (
-    <UpdateHighlight updatedAt={updatedAt}>
-      <div className="flex items-end justify-between">
-        <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
-          <Package className="size-3.5" />
-          <span>{stock > 0 ? `${stock} in stock` : "Out of stock"}</span>
-        </div>
-      </div>
-    </UpdateHighlight>
-  );
-}
 
 export async function ProductRating({ id }: { id: number }) {
   "use cache";
   cacheTag(`rating-${id}`);
-  const productData = await getProduct(id);
-
-  if (!productData) return null;
-  const { rating, updatedAt } = productData;
-
+  const data = await getProductField(id, "rating");
+  if (!data) return null;
+  const { rating, date } = data;
   return (
-    <UpdateHighlight updatedAt={updatedAt}>
+    <UpdateHighlight updatedAt={date}>
       <StarRating rating={rating} />
     </UpdateHighlight>
   );
 }
+
 export async function ProductBrand({ id }: { id: number }) {
   "use cache";
   cacheTag(`brand-${id}`);
-  const productData = await getProduct(id);
-  if (!productData) return null;
-  const { brand, updatedAt } = productData;
-
+  const data = await getProductField(id, "brand");
+  if (!data) return null;
+  const { brand, date } = data;
   return (
-    <UpdateHighlight updatedAt={updatedAt}>
+    <UpdateHighlight updatedAt={date}>
       <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
         {brand}
       </span>
@@ -163,33 +139,52 @@ export async function ProductBrand({ id }: { id: number }) {
 export async function ProductBadge({ id }: { id: number }) {
   "use cache";
   cacheTag(`category-${id}`);
-  const productData = await getProduct(id);
-  if (!productData) return null;
-  const { category, updatedAt } = productData;
+  const data = await getProductField(id, "category");
+  if (!data) return null;
+  const { category, date } = data;
 
   return (
-    <UpdateHighlight updatedAt={updatedAt}>
+    <UpdateHighlight updatedAt={date}>
       <Badge variant="secondary" className="text-xs font-medium">
         {category}
       </Badge>
     </UpdateHighlight>
   );
 }
+async function Stock({ id }: { id: number }) {
+  await connection(); // le dice a Next.js que este componente es dinámico
+
+  const product = await getProductField(id, "stock");
+  if (!product) return null;
+  const { stock, date } = product;
+
+  return (
+    <UpdateHighlight updatedAt={date}>
+      <div className="flex items-end justify-between">
+        <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+          <Package className="size-3.5" />
+          <span>{stock > 0 ? `${stock} in stock` : "Out of stock"}</span>
+        </div>
+      </div>
+    </UpdateHighlight>
+  );
+}
 
 export async function ProductImage({ id }: { id: number }) {
   "use cache";
-  //cacheTag(`image-${id}`);
-  const productData = await getProduct(id);
-  if (!productData) return null;
-  const { name, description, updatedAt } = productData;
+  const name = await getProductField(id, "name");
+  const description = await getProductField(id, "description");
+  if (!name || !description) return null;
 
   const imageUrl = await generateCardImage({
     id: id.toString(),
-    title: name,
-    description,
+    title: name.name,
+    description: description.description,
   });
 
-  return <Image src={imageUrl} width={1200} height={630} alt={name} priority />;
+  return (
+    <Image src={imageUrl} width={1200} height={630} alt={name.name} priority />
+  );
 }
 export function StarRating({ rating }: { rating: number }) {
   return (

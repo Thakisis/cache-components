@@ -11,14 +11,16 @@ export function UpdateHighlight({
   updatedAt,
   children,
 }: {
-  updatedAt: string;
+  updatedAt: number;
   children: React.ReactNode;
 }) {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const now = new Date();
-    const diff = Math.abs(now.getTime() - new Date(`${updatedAt} Z`).getTime());
+    const diff = Math.abs(
+      new Date(now).getTime() - new Date(updatedAt).getTime(),
+    );
 
     if (diff < 10000) {
       ref.current?.animate(
@@ -39,20 +41,20 @@ export function UpdateHighlight({
         </div>
       </TooltipTrigger>
       <TooltipContent side="top" align="start" className="w-fit">
-        <TimeSinceUpdate updatedAt={new Date(`${updatedAt} Z`)} />
+        <TimeSinceUpdate updatedAt={updatedAt} />
       </TooltipContent>
     </Tooltip>
   );
 }
 
-export function TimeSinceUpdate({ updatedAt }: { updatedAt: Date }) {
+export function TimeSinceUpdate({ updatedAt }: { updatedAt: number }) {
   const [elapsed, setElapsed] = useState(0);
 
   useEffect(() => {
-    setElapsed(Math.floor((Date.now() - updatedAt.getTime()) / 1000));
+    setElapsed(Math.floor((Date.now() - updatedAt) / 1000));
 
     const interval = setInterval(() => {
-      setElapsed(Math.floor((Date.now() - updatedAt.getTime()) / 1000));
+      setElapsed(Math.floor((Date.now() - updatedAt) / 1000));
     }, 1000);
 
     return () => clearInterval(interval);
