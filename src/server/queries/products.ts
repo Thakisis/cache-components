@@ -27,7 +27,7 @@ export async function getProductField<
   if (!(col instanceof Column)) return null;
 
   const productslist = await db
-    .select({ value: col })
+    .select({ value: col, updatedAt: products.updatedAt })
     .from(products)
     .where(eq(products.id, id));
 
