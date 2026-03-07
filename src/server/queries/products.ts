@@ -21,7 +21,7 @@ export async function getProductField<
   K extends keyof typeof products & keyof Product,
 >(id: number, field: K) {
   "use cache";
-  //cacheTag(`product-${id}`);
+  cacheTag(`${field}-${id}`);
 
   const col = products[field];
   if (!(col instanceof Column)) return null;
