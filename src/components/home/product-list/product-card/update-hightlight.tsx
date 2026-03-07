@@ -19,7 +19,7 @@ export function UpdateHighlight({
   useEffect(() => {
     const now = new Date();
     const diff = Math.abs(
-      new Date(now).getTime() - new Date(`${updatedAt} Z`).getTime(),
+      new Date(now).getTime() - new Date(`${updatedAt}`).getTime(),
     );
 
     if (diff < 10000) {
