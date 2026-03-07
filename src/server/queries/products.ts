@@ -9,6 +9,8 @@ export async function getProducts() {
 }
 
 export async function getProduct(id: number) {
+  "use cache";
+  cacheTag(`product-${id}`);
   const result = await db.select().from(products).where(eq(products.id, id));
   return result[0];
 }
@@ -20,10 +22,10 @@ export async function getProductField<K extends keyof Product>(
   cacheTag(`${field}-${id}`);
   const product = (await getProduct(id)) as Product | null;
   if (!product) return null;
-
+  const date = new Date(product.updatedAt).getTime();
   return {
     [field]: product[field],
-    date: Date.now(),
+    date: date,
   } as { [P in K]: Product[P] } & { date: number };
 }
 // obtener los id de los 10 primeros productos
