@@ -34,8 +34,9 @@ export async function getProductField<
   const product = productslist[0];
   if (!product) return null;
 
+  const rawDate = (product as { updatedAt?: string }).updatedAt ?? "";
   const date = new Date(
-    (product as { updatedAt?: string }).updatedAt ?? "",
+    rawDate.endsWith("Z") ? rawDate : `${rawDate} Z`,
   ).getTime();
 
   return {
