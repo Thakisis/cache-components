@@ -17,32 +17,21 @@ export interface ProductKey {
 export default async function ProductCard({ id }: ProductKey) {
   return (
     <article className="w-95 overflow-hidden rounded-2xl border border-border bg-card shadow-xl shadow-black/20 transition-shadow duration-300 hover:shadow-2xl hover:shadow-black/30">
-      {/* <Suspense fallback={<div>loading</div>}>
-        <ProductImage id={id} />
-      </Suspense> */}
       <div className="flex flex-col gap-4 p-5">
-        <Suspense fallback={<div>name...</div>}>
-          <ProductName id={id} />
-        </Suspense>
-        <Suspense fallback={<div>Description...</div>}>
-          <ProductDescription id={id} />
-        </Suspense>
+        <ProductName id={id} />
+
+        <ProductDescription id={id} />
+
         <div className="flex items-center justify-between">
-          <Suspense fallback={<div>badge...</div>}>
-            <ProductBadge id={id} />
-          </Suspense>
-          <Suspense fallback={<div>brand...</div>}>
-            <ProductBrand id={id} />
-          </Suspense>
+          <ProductBadge id={id} />
+
+          <ProductBrand id={id} />
         </div>
 
-        <Suspense fallback={<div>rating...</div>}>
-          <ProductRating id={id} />
-        </Suspense>
+        <ProductRating id={id} />
+
+        <Price id={id} />
         <Suspense fallback={<div>loading</div>}>
-          <Price id={id} />
-        </Suspense>
-        <Suspense fallback={<div>stock...</div>}>
           <Stock id={id} />
         </Suspense>
         <EditButton id={id} />
