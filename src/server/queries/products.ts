@@ -1,6 +1,5 @@
 // src/db/queries.ts
-import { eq } from "drizzle-orm";
-import { cacheTag } from "next/cache";
+import { Column, eq } from "drizzle-orm";
 import { db } from "@/db/index";
 import { type Product, products } from "@/db/schema";
 
@@ -13,14 +12,9 @@ export async function getProduct(id: number) {
   return result[0];
 }
 
-import { Column } from "drizzle-orm";
-
 export async function getProductField<
   K extends keyof typeof products & keyof Product,
 >(id: number, field: K) {
-  "use cache";
-  cacheTag(`${field}-${id}`);
-
   const col = products[field];
   if (!(col instanceof Column)) return null;
 
