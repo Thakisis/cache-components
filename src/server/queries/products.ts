@@ -9,8 +9,6 @@ export async function getProducts() {
 }
 
 export async function getProduct(id: number) {
-  "use cache";
-  cacheTag(`product-${id}`);
   const result = await db.select().from(products).where(eq(products.id, id));
   return result[0];
 }
