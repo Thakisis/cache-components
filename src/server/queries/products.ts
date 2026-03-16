@@ -1,5 +1,5 @@
 // src/db/queries.ts
-import { eq } from "drizzle-orm";
+import {Column, eq } from "drizzle-orm";
 import { cacheTag } from "next/cache";
 import { db } from "@/db/index";
 import { type Product, products } from "@/db/schema";
@@ -12,8 +12,6 @@ export async function getProduct(id: number) {
   const result = await db.select().from(products).where(eq(products.id, id));
   return result[0];
 }
-
-import { Column } from "drizzle-orm";
 
 export async function getProductField<
   K extends keyof typeof products & keyof Product,
