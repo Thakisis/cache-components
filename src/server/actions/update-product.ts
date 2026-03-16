@@ -23,7 +23,7 @@ const EDITABLE_KEYS: EditableKey[] = [
 const FIELD_CACHE_TAGS: Partial<Record<EditableKey, (id: number) => string>> = {
   name: (id) => `name-${id}`,
   description: (id) => `description-${id}`,
-  category: (id) => `category-${id}`,
+  category: (id) => `badge-${id}`,
   brand: (id) => `brand-${id}`,
   price: (id) => `price-${id}`,
   discount: (id) => `price-${id}`,
