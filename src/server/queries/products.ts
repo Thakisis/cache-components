@@ -1,6 +1,6 @@
 // src/db/queries.ts
 import {Column, eq } from "drizzle-orm";
-import { cacheTag } from "next/cache";
+import { cacheLife, cacheTag } from "next/cache";
 import { db } from "@/db/index";
 import { type Product, products } from "@/db/schema";
 
@@ -41,8 +41,3 @@ export async function getProductField<
   } as { [P in K]: Product[P] } & { date: number };
 }
 
-// obtener los id de los 10 primeros productos
-export async function getProductIds(count = 10) {
-  "use cache";
-  return db.select({ id: products.id }).from(products).limit(count);
-}

@@ -1,7 +1,4 @@
 import { getProductIds } from "@/server/queries/products";
-export type PageParams = {
-  idproduct: string;
-};
 
 export async function generateStaticParams() {
   const products = await getProductIds(10);
@@ -12,9 +9,7 @@ export async function generateStaticParams() {
 
 export default async function ProductPage({
   params,
-}: {
-  params: Promise<PageParams>;
-}) {
+}: PageProps<"/edit/[idproduct]">) {
   const { idproduct } = await params;
   return <div>Edit Product {idproduct}</div>;
 }

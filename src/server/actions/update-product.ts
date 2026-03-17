@@ -88,6 +88,7 @@ export async function updateProductAction(
     tagsToRevalidate.add(`product-${original.id}`);
 
     for (const tag of tagsToRevalidate) {
+      console.log(tag)
       updateTag(tag);
     }
 

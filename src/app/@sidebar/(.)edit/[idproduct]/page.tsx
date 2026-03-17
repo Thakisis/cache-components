@@ -1,8 +1,7 @@
 import EditProduct from "@/components/edit-product";
-import { getProductIds } from "@/server/queries/products";
-export type PageParams = {
-  idproduct: string;
-};
+import { getProductIds } from "@/server/queries/getProductIds";
+import { getProduct } from "@/server/queries/products";
+
 
 export async function generateStaticParams() {
   const products = await getProductIds(10);
@@ -13,9 +12,9 @@ export async function generateStaticParams() {
 
 export default async function Page({
   params,
-}: {
-  params: Promise<PageParams>;
-}) {
+}:PageProps<"/edit/[idproduct]">) {
   const { idproduct } = await params;
-  return <EditProduct idproduct={idproduct} />;
+  const product = await getProduct(parseInt(idproduct, 10));
+  console.log("pepita")
+  return <EditProduct idproduct={product} />;
 }

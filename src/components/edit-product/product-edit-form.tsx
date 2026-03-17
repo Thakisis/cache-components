@@ -10,7 +10,7 @@ import {
   Star,
   Tag,
 } from "lucide-react";
-import { useActionState, useMemo, useState } from "react";
+import { useActionState,  useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -46,7 +46,7 @@ export function ProductEditForm({ product }: ProductEditFormProps) {
     updateProductAction,
     initialState,
   );
-
+  console.log(edited.rating)
   const editableKeys: EditableKey[] = [
     "name",
     "description",
@@ -75,9 +75,9 @@ export function ProductEditForm({ product }: ProductEditFormProps) {
   }
 
   const discountedPrice =
-    edited.discount > 0
+(  edited.discount > 0
       ? edited.price * (1 - edited.discount / 100)
-      : edited.price;
+      : edited.price).toFixed(2)
 
   return (
     <div className="@container w-full product-edit-form">
@@ -255,7 +255,7 @@ export function ProductEditForm({ product }: ProductEditFormProps) {
           </p>
           <div className="flex items-baseline gap-3">
             <span className="text-2xl font-bold text-foreground">
-              ${discountedPrice.toFixed(2)}
+              {discountedPrice}
             </span>
             {edited.discount > 0 && (
               <>
@@ -292,7 +292,7 @@ export function ProductEditForm({ product }: ProductEditFormProps) {
             <div className="flex items-center gap-1.5 min-w-18 justify-end">
               <StarDisplay rating={edited.rating} />
               <span className="text-sm font-medium text-foreground tabular-nums w-8 text-right">
-                {edited.rating.toFixed(1)}
+                {edited.rating}
               </span>
             </div>
           </div>

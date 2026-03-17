@@ -1,5 +1,5 @@
 import { Package, Star } from "lucide-react";
-import { cacheTag } from "next/cache";
+import { cacheLife, cacheTag } from "next/cache";
 import Image from "next/image";
 import { connection } from "next/server";
 import { Suspense } from "react";
@@ -18,19 +18,33 @@ export default async function ProductCard({ id }: ProductKey) {
   return (
     <article className="w-95 overflow-hidden rounded-2xl border border-border bg-card shadow-xl shadow-black/20 transition-shadow duration-300 hover:shadow-2xl hover:shadow-black/30">
       <div className="flex flex-col gap-4 p-5">
+          <Suspense>
         <ProductName id={id} />
 
+          </Suspense>
+          <Suspense>
+
         <ProductDescription id={id} />
+          </Suspense>
 
         <div className="flex items-center justify-between">
+          <Suspense>
           <ProductBadge id={id} />
+          </Suspense>
 
+          <Suspense>
           <ProductBrand id={id} />
+          </Suspense>
         </div>
+          <Suspense>
 
         <ProductRating id={id} />
+          </Suspense>
+          <Suspense>
 
         <Price id={id} />
+          </Suspense>
+
         <Suspense fallback={<div>loading</div>}>
           <Stock id={id} />
         </Suspense>
@@ -40,8 +54,9 @@ export default async function ProductCard({ id }: ProductKey) {
   );
 }
 export async function ProductName({ id }: { id: number }) {
-  "use cache";
+  "use cache: remote";
   cacheTag(`name-${id}`);
+  cacheLife("weeks")
   const data = await getProductField(id, "name");
   if (!data) return null;
   const { name, date } = data;
@@ -57,6 +72,7 @@ export async function ProductName({ id }: { id: number }) {
 export async function ProductDescription({ id }: { id: number }) {
   "use cache";
   cacheTag(`description-${id}`);
+  cacheLife("weeks")
   const data = await getProductField(id, "description");
   if (!data) return null;
   const { description, date } = data;
@@ -73,6 +89,7 @@ export async function ProductDescription({ id }: { id: number }) {
 async function Price({ id }: { id: number }) {
   "use cache";
   cacheTag(`price-${id}`, `discount-${id}`);
+  cacheLife("days")
   const dataprice = await getProductField(id, "price");
   const datadiscount = await getProductField(id, "discount");
   if (!dataprice || !datadiscount) return null;
@@ -100,6 +117,7 @@ async function Price({ id }: { id: number }) {
 export async function ProductRating({ id }: { id: number }) {
   "use cache";
   cacheTag(`rating-${id}`);
+  cacheLife("seconds")
   const data = await getProductField(id, "rating");
   if (!data) return null;
   const { rating, date } = data;
@@ -113,6 +131,7 @@ export async function ProductRating({ id }: { id: number }) {
 export async function ProductBrand({ id }: { id: number }) {
   "use cache";
   cacheTag(`brand-${id}`);
+  cacheLife("weeks")
   const data = await getProductField(id, "brand");
   if (!data) return null;
   const { brand, date } = data;
@@ -128,6 +147,7 @@ export async function ProductBrand({ id }: { id: number }) {
 export async function ProductBadge({ id }: { id: number }) {
   "use cache";
   cacheTag(`category-${id}`);
+  cacheLife("weeks")
   const data = await getProductField(id, "category");
   if (!data) return null;
   const { category, date } = data;
@@ -162,6 +182,7 @@ async function Stock({ id }: { id: number }) {
 export async function ProductImage({ id }: { id: number }) {
   "use cache";
   cacheTag(`image-${id}`);
+  cacheLife("days")
   const name = await getProductField(id, "name");
   const description = await getProductField(id, "description");
   if (!name || !description) return null;

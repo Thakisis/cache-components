@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono, Inter } from "next/font/google";
 import "./globals.css";
 import { TooltipProvider } from "@/components/ui/tooltip"
+import Link from "next/link";
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
 const geistSans = Geist({
@@ -22,17 +23,39 @@ export const metadata: Metadata = {
 export default function RootLayout({
   children,
   sidebar,
-}: Readonly<{
-  children: React.ReactNode;
-  sidebar: React.ReactNode;
-}>) {
+}: Readonly<LayoutProps<"/">>) {
   return (
     <html lang="en" className={inter.variable}>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <TooltipProvider>
-        
+        <header className=" z-50 border-b bg-background/80 backdrop-blur-md">
+            <nav className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+              <Link
+                href="/"
+                className="text-base font-semibold tracking-tight transition-opacity hover:opacity-80"
+              >
+                Mi App
+              </Link>
+
+              <div className="flex items-center gap-2 rounded-full border bg-muted/40 p-1">
+                <Link
+                  href="/"
+                  className="rounded-full px-4 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-background hover:text-foreground"
+                >
+                  Home
+                </Link>
+
+                <Link
+                  href="/cambiar-page"
+                  className="rounded-full px-4 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-background hover:text-foreground"
+                >
+                  Otra página
+                </Link>
+              </div>
+            </nav>
+          </header>
         {sidebar}
         {children}
         </TooltipProvider>
