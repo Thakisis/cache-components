@@ -1,79 +1,60 @@
 import { Package, Star } from "lucide-react";
 import { cacheLife, cacheTag } from "next/cache";
-import Image from "next/image";
-import { connection } from "next/server";
+
+
 import { Suspense } from "react";
 import { Badge } from "@/components/ui/badge";
 
-import { generateCardImage } from "@/lib/generateImages";
-import { cn } from "@/lib/utils";
-import { getProductField } from "@/server/queries/products";
+import {  getProductField2 } from "@/server/queries/revalidateProduct";
 import EditButton from "./edit-button";
 import { UpdateWrapper } from "./update-wrapper";
+import { StarRating } from "./product-card-multiple-request";
 
 export interface ProductKey {
   id: number;
 }
-export default async function ProductCard({ id }: ProductKey) {
+export default function ProductCard({ id }: ProductKey) {
+
   return (
     <article className="w-95 overflow-hidden rounded-2xl border border-border bg-card shadow-xl shadow-black/20 transition-shadow duration-300 hover:shadow-2xl hover:shadow-black/30">
-      <div className="flex flex-col gap-4 p-5">
-          <Suspense>
-        <ProductName id={id} />
-
-          </Suspense>
-          <Suspense>
-
-        <ProductDescription id={id} />
-          </Suspense>
-
+      <div className="flex flex-col gap-4 p-5">  
+          <ProductName id={id} />
+          <ProductDescription id={id} /> 
         <div className="flex items-center justify-between">
-          <Suspense>
           <ProductBadge id={id} />
-          </Suspense>
-
-          <Suspense>
           <ProductBrand id={id} />
-          </Suspense>
         </div>
-          <Suspense>
-
         <ProductRating id={id} />
-          </Suspense>
-          <Suspense>
-
         <Price id={id} />
-          </Suspense>
-
-        <Suspense fallback={<div>loading</div>}>
-          <Stock id={id} />
-        </Suspense>
+        <Suspense>
+          <Stock id={id} /> 
+        </Suspense> 
         <EditButton id={id} />
       </div>
     </article>
   );
 }
 export async function ProductName({ id }: { id: number }) {
-  "use cache: remote";
+  "use cache";
   cacheTag(`name-${id}`);
-  cacheLife("weeks")
-  const data = await getProductField(id, "name");
+  cacheLife("nuncaSeRevalida")
+  const data = await getProductField2({id, field: "name"});
   if (!data) return null;
   const { name, date } = data;
-  return (
+  return (  
     <UpdateWrapper updatedAt={date}>
       <h2 className="text-lg font-bold leading-snug text-card-foreground text-balance">
         {name}
       </h2>
     </UpdateWrapper>
-  );
+  )
 }
 
 export async function ProductDescription({ id }: { id: number }) {
   "use cache";
   cacheTag(`description-${id}`);
-  cacheLife("weeks")
-  const data = await getProductField(id, "description");
+  cacheLife("nuncaSeRevalida")
+  const data = await getProductField2({id, field:"description"});
   if (!data) return null;
   const { description, date } = data;
 
@@ -89,9 +70,9 @@ export async function ProductDescription({ id }: { id: number }) {
 async function Price({ id }: { id: number }) {
   "use cache";
   cacheTag(`price-${id}`, `discount-${id}`);
-  cacheLife("days")
-  const dataprice = await getProductField(id, "price");
-  const datadiscount = await getProductField(id, "discount");
+  cacheLife("nuncaSeRevalida")
+  const dataprice = await getProductField2({id, field:"price"});
+  const datadiscount = await getProductField2({id, field:"discount"});
   if (!dataprice || !datadiscount) return null;
   const { price, date } = dataprice;
   const { discount } = datadiscount;
@@ -109,21 +90,21 @@ async function Price({ id }: { id: number }) {
             ${price.toFixed(2)}
           </span>
         )}
-      </div>
-    </UpdateWrapper>
+      </div>      
+   </UpdateWrapper>
   );
 }
 
 export async function ProductRating({ id }: { id: number }) {
   "use cache";
   cacheTag(`rating-${id}`);
-  cacheLife("seconds")
-  const data = await getProductField(id, "rating");
+  cacheLife("nuncaSeRevalida")
+  const data = await getProductField2({id, field:"rating"});
   if (!data) return null;
   const { rating, date } = data;
   return (
     <UpdateWrapper updatedAt={date}>
-      <StarRating rating={rating} />
+        <StarRating rating={rating} /> 
     </UpdateWrapper>
   );
 }
@@ -131,15 +112,15 @@ export async function ProductRating({ id }: { id: number }) {
 export async function ProductBrand({ id }: { id: number }) {
   "use cache";
   cacheTag(`brand-${id}`);
-  cacheLife("weeks")
-  const data = await getProductField(id, "brand");
+  cacheLife("nuncaSeRevalida")
+  const data = await getProductField2({id, field:"brand"});
   if (!data) return null;
   const { brand, date } = data;
   return (
-    <UpdateWrapper updatedAt={date}>
+   <UpdateWrapper updatedAt={date}>
       <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
         {brand}
-      </span>
+      </span>      
     </UpdateWrapper>
   );
 }
@@ -147,77 +128,81 @@ export async function ProductBrand({ id }: { id: number }) {
 export async function ProductBadge({ id }: { id: number }) {
   "use cache";
   cacheTag(`category-${id}`);
-  cacheLife("weeks")
-  const data = await getProductField(id, "category");
+  cacheLife("nuncaSeRevalida")
+  const data = await getProductField2({id, field:"category"});
   if (!data) return null;
   const { category, date } = data;
 
   return (
-    <UpdateWrapper updatedAt={date}>
+   <UpdateWrapper updatedAt={date}>
       <Badge variant="secondary" className="text-xs font-medium">
         {category}
-      </Badge>
+      </Badge>      
     </UpdateWrapper>
   );
 }
 async function Stock({ id }: { id: number }) {
-  await connection(); // le dice a Next.js que este componente es dinámico
-
-  const product = await getProductField(id, "stock");
+  "use cache";
+  cacheTag(`stock-${id}`);
+  cacheLife("seconds")
+  const product = await getProductField2({id, field:"stock"});
   if (!product) return null;
   const { stock, date } = product;
-
+  const showConsole = id === 2 && stock
+  if (showConsole) console.log("stock component", stock, `stock-${id}`)
   return (
-    <UpdateWrapper updatedAt={date}>
-      <div className="flex items-end justify-between">
-        <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
-          <Package className="size-3.5" />
-          <span>{stock > 0 ? `${stock} in stock` : "Out of stock"}</span>
-        </div>
-      </div>
-    </UpdateWrapper>
+    <Suspense>
+        <UpdateWrapper updatedAt={date}>
+          <div className="flex items-end justify-between">
+            <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+              <Package className="size-3.5" />
+              <span>{stock > 0 ? `${stock} in stock` : "Out of stock"}</span>
+            </div>
+          </div>
+        </UpdateWrapper>
+    </Suspense>
   );
 }
 
-export async function ProductImage({ id }: { id: number }) {
-  "use cache";
-  cacheTag(`image-${id}`);
-  cacheLife("days")
-  const name = await getProductField(id, "name");
-  const description = await getProductField(id, "description");
-  if (!name || !description) return null;
+// export async function ProductImage({ id }: { id: number }) {
 
-  const imageUrl = await generateCardImage({
-    id: id.toString(),
-    title: name.name,
-    description: description.description,
-  });
+//   cacheTag(`image-${id}`);
 
-  return (
-    <Image src={imageUrl} width={1200} height={630} alt={name.name} priority />
-  );
-}
-export function StarRating({ rating }: { rating: number }) {
-  return (
-    <div className="flex items-center gap-1">
-      {[1, 2, 3, 4, 5].map((star) => {
-        const filled = rating >= star;
-        const partial = !filled && rating > star - 1;
-        return (
-          <Star
-            key={star}
-            className={cn(
-              "size-4",
-              filled
-                ? "fill-primary text-primary"
-                : partial
-                  ? "fill-primary/50 text-primary"
-                  : "fill-muted text-muted",
-            )}
-          />
-        );
-      })}
-      <span className="ml-1 text-sm text-muted-foreground">{rating}</span>
-    </div>
-  );
-}
+//   const name = await getProductField2(id, "name");
+//   const description = await getProductField2(id, "description");
+//   if (!name || !description) return null;
+
+//   const imageUrl = await generateCardImage({
+//     id: id.toString(),
+//     title: name.name,
+//     description: description.description,
+//   });
+
+//   return (
+//     <Image src={imageUrl} width={1200} height={630} alt={name.name} priority />
+//   );
+// }
+// export function StarRating({ rating }: { rating: number }) {
+//   return (
+//     <div className="flex items-center gap-1">
+//       {[1, 2, 3, 4, 5].map((star) => {
+//         const filled = rating >= star;
+//         const partial = !filled && rating > star - 1;
+//         return (
+//           <Star
+//             key={star}
+//             className={cn(
+//               "size-4",
+//               filled
+//                 ? "fill-primary text-primary"
+//                 : partial
+//                   ? "fill-primary/50 text-primary"
+//                   : "fill-muted text-muted",
+//             )}
+//           />
+//         );
+//       })}
+//       <span className="ml-1 text-sm text-muted-foreground">{rating}</span>
+//     </div>
+//   );
+// }

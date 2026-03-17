@@ -4,21 +4,8 @@ import { eq, sql } from "drizzle-orm";
 import { updateTag } from "next/cache";
 import { db } from "@/db";
 import { type Product, products } from "@/db/schema";
+import {type EditableKey, type EditableFields, EDITABLE_KEYS} from "@/types/product";
 
-type EditableFields = Omit<Product, "id" | "createdAt" | "images">;
-type EditableKey = keyof EditableFields;
-
-const EDITABLE_KEYS: EditableKey[] = [
-  "name",
-  "description",
-  "category",
-  "brand",
-  "price",
-  "discount",
-  "rating",
-  "stock",
-  "updatedAt",
-];
 
 const FIELD_CACHE_TAGS: Partial<Record<EditableKey, (id: number) => string>> = {
   name: (id) => `name-${id}`,
@@ -88,7 +75,7 @@ export async function updateProductAction(
     tagsToRevalidate.add(`product-${original.id}`);
 
     for (const tag of tagsToRevalidate) {
-      console.log(tag)
+
       updateTag(tag);
     }
 

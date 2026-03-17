@@ -4,12 +4,16 @@ import { cacheLife, cacheTag } from "next/cache";
 import { db } from "@/db/index";
 import { type Product, products } from "@/db/schema";
 
-export async function getProducts() {
-  return db.select().from(products);
-}
+// export async function getProducts() {
+//   return db.select().from(products);
+// }
 
 export async function getProduct(id: number) {
+  "use cache";
+  cacheTag(`product-${id}`);
+  cacheLife("nuncaSeRevalida")
   const result = await db.select().from(products).where(eq(products.id, id));
+  
   return result[0];
 }
 
@@ -17,7 +21,9 @@ export async function getProductField<
   K extends keyof typeof products & keyof Product,
 >(id: number, field: K) {
   "use cache";
+  
   cacheTag(`${field}-${id}`);
+  cacheLife("nuncaSeRevalida")
 
   const col = products[field];
   if (!(col instanceof Column)) return null;

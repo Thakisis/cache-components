@@ -1,18 +1,17 @@
-import { cacheTag } from "next/cache";
 
 import { ProductEditForm } from "./product-edit-form";
-import { Product } from "@/types/product";
 import { Suspense } from "react";
+import { getProduct } from "@/server/queries/products";
 export type PageParams = {
-  idproduct: Product;
+  idproduct: number;
 };
 
 export default async function EditProduct({ idproduct }: PageParams) {
-  "use cache";
-  cacheTag(`product-${idproduct.id}`);
- 
+
+  const product = await getProduct(idproduct);
+
   return (
   <Suspense>
-    <ProductEditForm product={idproduct} />;
+    <ProductEditForm product={product} />;
   </Suspense>)
 }

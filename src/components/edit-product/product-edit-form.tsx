@@ -46,7 +46,7 @@ export function ProductEditForm({ product }: ProductEditFormProps) {
     updateProductAction,
     initialState,
   );
-  console.log(edited.rating)
+  
   const editableKeys: EditableKey[] = [
     "name",
     "description",

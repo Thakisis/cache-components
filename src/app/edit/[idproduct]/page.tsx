@@ -1,4 +1,4 @@
-import { getProductIds } from "@/server/queries/products";
+import { getProductIds } from "@/server/queries/getProductIds";
 
 export async function generateStaticParams() {
   const products = await getProductIds(10);

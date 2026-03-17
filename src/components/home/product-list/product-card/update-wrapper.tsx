@@ -6,6 +6,13 @@ export function UpdateWrapper({
   children: React.ReactNode;
   updatedAt: number;
 }) {
+
   const updatedate = Date.now();
-  return <UpdateHighlight updatedAt={updatedate}>{children}</UpdateHighlight>;
+  return (
+ <UpdateHighlight updatedAt={updatedate}>
+     {children}
+    
+    </UpdateHighlight>
+  )
+ 
 }

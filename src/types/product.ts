@@ -10,3 +10,20 @@ export interface Product {
   stock: number
   createdAt: string
 }
+
+import { Product as ProductType } from "@/db/schema";
+
+export type EditableFields = Omit<ProductType, "id" | "createdAt" | "images">;
+export type EditableKey = keyof EditableFields;
+
+export const EDITABLE_KEYS: EditableKey[] = [
+  "name",
+  "description",
+  "category",
+  "brand",
+  "price",
+  "discount",
+  "rating",
+  "stock",
+  "updatedAt",
+] as const
