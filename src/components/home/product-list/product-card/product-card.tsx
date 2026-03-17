@@ -14,7 +14,6 @@ export interface ProductKey {
   id: number;
 }
 export default function ProductCard({ id }: ProductKey) {
-
   return (
     <article className="w-95 overflow-hidden rounded-2xl border border-border bg-card shadow-xl shadow-black/20 transition-shadow duration-300 hover:shadow-2xl hover:shadow-black/30">
       <div className="flex flex-col gap-4 p-5">  
