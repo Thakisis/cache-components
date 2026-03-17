@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "bun run db:setup && next build",
+    "rebuild": "next build",
     "start": "next start",
     "lint": "biome check",
     "format": "biome format --write",

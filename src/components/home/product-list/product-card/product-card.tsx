@@ -9,7 +9,7 @@ import { generateCardImage } from "@/lib/generateImages";
 import { cn } from "@/lib/utils";
 import { getProductField } from "@/server/queries/products";
 import EditButton from "./edit-button";
-import { UpdateHighlight } from "./update-hightlight";
+import { UpdateWrapper } from "./update-wrapper";
 
 export interface ProductKey {
   id: number;
@@ -46,11 +46,11 @@ export async function ProductName({ id }: { id: number }) {
   if (!data) return null;
   const { name, date } = data;
   return (
-    <UpdateHighlight updatedAt={date}>
+    <UpdateWrapper updatedAt={date}>
       <h2 className="text-lg font-bold leading-snug text-card-foreground text-balance">
         {name}
       </h2>
-    </UpdateHighlight>
+    </UpdateWrapper>
   );
 }
 
@@ -62,11 +62,11 @@ export async function ProductDescription({ id }: { id: number }) {
   const { description, date } = data;
 
   return (
-    <UpdateHighlight updatedAt={date}>
+    <UpdateWrapper updatedAt={date}>
       <p className="text-sm leading-relaxed text-muted-foreground">
         {description}
       </p>
-    </UpdateHighlight>
+    </UpdateWrapper>
   );
 }
 
@@ -82,7 +82,7 @@ async function Price({ id }: { id: number }) {
   const discountedPrice = discount > 0 ? price * (1 - discount / 100) : price;
 
   return (
-    <UpdateHighlight updatedAt={date}>
+    <UpdateWrapper updatedAt={date}>
       <div className="flex items-baseline gap-2">
         <span className="text-2xl font-bold text-card-foreground">
           ${discountedPrice.toFixed(2)}
@@ -93,7 +93,7 @@ async function Price({ id }: { id: number }) {
           </span>
         )}
       </div>
-    </UpdateHighlight>
+    </UpdateWrapper>
   );
 }
 
@@ -104,9 +104,9 @@ export async function ProductRating({ id }: { id: number }) {
   if (!data) return null;
   const { rating, date } = data;
   return (
-    <UpdateHighlight updatedAt={date}>
+    <UpdateWrapper updatedAt={date}>
       <StarRating rating={rating} />
-    </UpdateHighlight>
+    </UpdateWrapper>
   );
 }
 
@@ -117,11 +117,11 @@ export async function ProductBrand({ id }: { id: number }) {
   if (!data) return null;
   const { brand, date } = data;
   return (
-    <UpdateHighlight updatedAt={date}>
+    <UpdateWrapper updatedAt={date}>
       <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
         {brand}
       </span>
-    </UpdateHighlight>
+    </UpdateWrapper>
   );
 }
 
@@ -133,11 +133,11 @@ export async function ProductBadge({ id }: { id: number }) {
   const { category, date } = data;
 
   return (
-    <UpdateHighlight updatedAt={date}>
+    <UpdateWrapper updatedAt={date}>
       <Badge variant="secondary" className="text-xs font-medium">
         {category}
       </Badge>
-    </UpdateHighlight>
+    </UpdateWrapper>
   );
 }
 async function Stock({ id }: { id: number }) {
@@ -148,14 +148,14 @@ async function Stock({ id }: { id: number }) {
   const { stock, date } = product;
 
   return (
-    <UpdateHighlight updatedAt={date}>
+    <UpdateWrapper updatedAt={date}>
       <div className="flex items-end justify-between">
         <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
           <Package className="size-3.5" />
           <span>{stock > 0 ? `${stock} in stock` : "Out of stock"}</span>
         </div>
       </div>
-    </UpdateHighlight>
+    </UpdateWrapper>
   );
 }
 
