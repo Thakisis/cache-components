@@ -17,12 +17,12 @@ export default function ProductCard({ id }: ProductKey) {
   return (
     <article className="w-95 overflow-hidden rounded-2xl border border-border bg-card shadow-xl shadow-black/20 transition-shadow duration-300 hover:shadow-2xl hover:shadow-black/30">
       <div className="flex flex-col gap-4 p-5">  
-        <Suspense>
+        {/* <Suspense> */}
           <ProductName id={id} />
-        </Suspense>
-        <Suspense>
+        {/* </Suspense> */}
+        {/* <Suspense> */}
           <ProductDescription id={id} /> 
-        </Suspense>
+        {/* </Suspense> */}
         {/* <div className="flex items-center justify-between">
           <ProductBadge id={id} />
           <ProductBrand id={id} />
@@ -45,11 +45,9 @@ export async function ProductName({ id }: { id: number }) {
   if (!data) return null;
   const { name, date } = data;
   return (  
-    <UpdateWrapper updatedAt={date}>
       <h2 className="text-lg font-bold leading-snug text-card-foreground text-balance">
         {name}
       </h2>
-    </UpdateWrapper>
   )
 }
 
@@ -62,11 +60,10 @@ export async function ProductDescription({ id }: { id: number }) {
   const { description, date } = data;
 
   return (
-    <UpdateWrapper updatedAt={date}>
+    
       <p className="text-sm leading-relaxed text-muted-foreground">
         {description}
       </p>
-    </UpdateWrapper>
   );
 }
 
@@ -83,7 +80,7 @@ async function Price({ id }: { id: number }) {
   const discountedPrice = discount > 0 ? price * (1 - discount / 100) : price;
 
   return (
-    <UpdateWrapper updatedAt={date}>
+    
       <div className="flex items-baseline gap-2">
         <span className="text-2xl font-bold text-card-foreground">
           ${discountedPrice.toFixed(2)}
@@ -93,8 +90,7 @@ async function Price({ id }: { id: number }) {
             ${price.toFixed(2)}
           </span>
         )}
-      </div>      
-   </UpdateWrapper>
+      </div>     
   );
 }
 
@@ -106,9 +102,8 @@ export async function ProductRating({ id }: { id: number }) {
   if (!data) return null;
   const { rating, date } = data;
   return (
-    <UpdateWrapper updatedAt={date}>
+    
         <StarRating rating={rating} /> 
-    </UpdateWrapper>
   );
 }
 
@@ -120,11 +115,10 @@ export async function ProductBrand({ id }: { id: number }) {
   if (!data) return null;
   const { brand, date } = data;
   return (
-   <UpdateWrapper updatedAt={date}>
+   
       <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
         {brand}
       </span>      
-    </UpdateWrapper>
   );
 }
 
@@ -137,11 +131,10 @@ export async function ProductBadge({ id }: { id: number }) {
   const { category, date } = data;
 
   return (
-   <UpdateWrapper updatedAt={date}>
+   
       <Badge variant="secondary" className="text-xs font-medium">
         {category}
       </Badge>      
-    </UpdateWrapper>
   );
 }
 async function Stock({ id }: { id: number }) {
@@ -155,14 +148,14 @@ async function Stock({ id }: { id: number }) {
   if (showConsole) console.log("stock component", stock, `stock-${id}`)
   return (
     <Suspense>
-        <UpdateWrapper updatedAt={date}>
+        
           <div className="flex items-end justify-between">
             <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
               <Package className="size-3.5" />
               <span>{stock > 0 ? `${stock} in stock` : "Out of stock"}</span>
             </div>
           </div>
-        </UpdateWrapper>
+  
     </Suspense>
   );
 }
