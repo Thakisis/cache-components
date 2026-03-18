@@ -4,6 +4,7 @@ import Image from "next/image";
 import { connection } from "next/server";
 import { Suspense } from "react";
 import { Badge } from "@/components/ui/badge";
+import { cacheLife } from 'next/cache'
 
 import { generateCardImage } from "@/lib/generateImages";
 import { cn } from "@/lib/utils";

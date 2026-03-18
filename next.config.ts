@@ -5,7 +5,7 @@ const nextConfig: NextConfig = {
 
   cacheComponents: true,
   cacheLife: {
-    default: {
+    productCache: {
       stale: Number.MAX_SAFE_INTEGER, // máximo posible
       revalidate: Number.MAX_SAFE_INTEGER,
       // expire omitido = nunca expira (Infinity)
