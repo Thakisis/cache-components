@@ -7,9 +7,12 @@ import { cn } from "@/lib/utils";
 // import { ProductName } from "../productItems/ProductName";
 // import { ProductDescription } from "../productItems/ProductDescription";
 import { cacheLife, cacheTag } from "next/cache";
-import { getProductDescription } from "@/server/queries/products/getProductDescription";
+// import { getProductDescription } from "@/server/queries/products/getProductDescription";
 import { UpdateWrapper } from "./update-wrapper";
-import { getProductName } from "@/server/queries/products/getProductName";
+// import { getProductName } from "@/server/queries/products/getProductName";
+import { Suspense } from "react";
+import { getProductField2 } from '@/server/queries/revalidateProduct';
+import { Badge } from "@/components/ui/badge";
 
 export interface ProductKey {
   id: number;
@@ -19,18 +22,14 @@ export default function ProductCard({ id }: ProductKey) {
   return (
     <article className="w-95 overflow-hidden rounded-2xl border border-border bg-card shadow-xl shadow-black/20 transition-shadow duration-300 hover:shadow-2xl hover:shadow-black/30">
       <div className="flex flex-col gap-4 p-5">  
-        {/* <Suspense> */}
           <ProductName id={id} />
-        {/* </Suspense> */}
-        {/* <Suspense> */}
           <ProductDescription id={id} /> 
-        {/* </Suspense> */}
-        {/* <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between">
           <ProductBadge id={id} />
           <ProductBrand id={id} />
         </div>
         <ProductRating id={id} />
-        <Price id={id} /> */}
+        <Price id={id} />
         {/* <Suspense>
           <Stock id={id} /> 
         </Suspense>  */}
@@ -43,7 +42,7 @@ export async function ProductDescription({ id }: { id: number }) {
   "use cache: remote";
   cacheTag(`description-${id}`);
   cacheLife("nuncaSeRevalida")
-  const data = await getProductDescription(id);
+  const data = await getProductField2({id, field:"description"});
   if (!data) return null;
   const { description, date } = data;
 
@@ -60,7 +59,7 @@ export async function ProductName({ id }: { id: number }) {
   "use cache: remote";
   cacheTag(`name-${id}`);
   cacheLife("nuncaSeRevalida")
-  const data = await getProductName(id)
+  const data = await getProductField2({id, field:"name"});
   if (!data) return null;
   const { name, date } = data;
   return (  
@@ -72,101 +71,101 @@ export async function ProductName({ id }: { id: number }) {
   )
 }
 
-// async function Price({ id }: { id: number }) {
-//   "use cache";
-//   cacheTag(`price-${id}`, `discount-${id}`);
-//   cacheLife("nuncaSeRevalida")
-//   const dataprice = await getProductField2({id, field:"price"});
-//   const datadiscount = await getProductField2({id, field:"discount"});
-//   if (!dataprice || !datadiscount) return null;
-//   const { price, date } = dataprice;
-//   const { discount } = datadiscount;
+async function Price({ id }: { id: number }) {
+  "use cache: remote";
+  cacheTag(`price-${id}`, `discount-${id}`);
+  cacheLife("nuncaSeRevalida")
+  const dataprice = await getProductField2({id, field:"price"});
+  const datadiscount = await getProductField2({id, field:"discount"});
+  if (!dataprice || !datadiscount) return null;
+  const { price, date } = dataprice;
+  const { discount } = datadiscount;
 
-//   const discountedPrice = discount > 0 ? price * (1 - discount / 100) : price;
+  const discountedPrice = discount > 0 ? price * (1 - discount / 100) : price;
 
-//   return (
-//     <UpdateWrapper updatedAt={date}>
-//       <div className="flex items-baseline gap-2">
-//         <span className="text-2xl font-bold text-card-foreground">
-//           ${discountedPrice.toFixed(2)}
-//         </span>
-//         {discount > 0 && (
-//           <span className="text-sm text-muted-foreground line-through">
-//             ${price.toFixed(2)}
-//           </span>
-//         )}
-//       </div>      
-//    </UpdateWrapper>
-//   );
-// }
+  return (
+    <UpdateWrapper updatedAt={date}>
+      <div className="flex items-baseline gap-2">
+        <span className="text-2xl font-bold text-card-foreground">
+          ${discountedPrice.toFixed(2)}
+        </span>
+        {discount > 0 && (
+          <span className="text-sm text-muted-foreground line-through">
+            ${price.toFixed(2)}
+          </span>
+        )}
+      </div>      
+   </UpdateWrapper>
+  );
+}
 
-// export async function ProductRating({ id }: { id: number }) {
-//   "use cache";
-//   cacheTag(`rating-${id}`);
-//   cacheLife("nuncaSeRevalida")
-//   const data = await getProductField2({id, field:"rating"});
-//   if (!data) return null;
-//   const { rating, date } = data;
-//   return (
-//     <UpdateWrapper updatedAt={date}>
-//         <StarRating rating={rating} /> 
-//     </UpdateWrapper>
-//   );
-// }
+export async function ProductRating({ id }: { id: number }) {
+  "use cache: remote";
+  cacheTag(`rating-${id}`);
+  cacheLife("nuncaSeRevalida")
+  const data = await getProductField2({id, field:"rating"});
+  if (!data) return null;
+  const { rating, date } = data;
+  return (
+    <UpdateWrapper updatedAt={date}>
+        <StarRating rating={rating} /> 
+    </UpdateWrapper>
+  );
+}
 
-// export async function ProductBrand({ id }: { id: number }) {
-//   "use cache";
-//   cacheTag(`brand-${id}`);
-//   cacheLife("nuncaSeRevalida")
-//   const data = await getProductField2({id, field:"brand"});
-//   if (!data) return null;
-//   const { brand, date } = data;
-//   return (
-//    <UpdateWrapper updatedAt={date}>
-//       <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-//         {brand}
-//       </span>      
-//     </UpdateWrapper>
-//   );
-// }
+export async function ProductBrand({ id }: { id: number }) {
+  "use cache: remote";
+  cacheTag(`brand-${id}`);
+  cacheLife("nuncaSeRevalida")
+  const data = await getProductField2({id, field:"brand"});
+  if (!data) return null;
+  const { brand, date } = data;
+  return (
+   <UpdateWrapper updatedAt={date}>
+      <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+        {brand}
+      </span>      
+    </UpdateWrapper>
+  );
+}
 
-// export async function ProductBadge({ id }: { id: number }) {
-//   "use cache";
-//   cacheTag(`category-${id}`);
-//   cacheLife("nuncaSeRevalida")
-//   const data = await getProductField2({id, field:"category"});
-//   if (!data) return null;
-//   const { category, date } = data;
+export async function ProductBadge({ id }: { id: number }) {
+  "use cache";
+  cacheTag(`category-${id}`);
+  cacheLife("nuncaSeRevalida")
+  const data = await getProductField2({id, field:"category"});
+  if (!data) return null;
+  const { category, date } = data;
 
-//   return (
-//    <UpdateWrapper updatedAt={date}>
-//       <Badge variant="secondary" className="text-xs font-medium">
-//         {category}
-//       </Badge>      
-//     </UpdateWrapper>
-//   );
-// }
-// async function Stock({ id }: { id: number }) {
-//   "use cache";
-//   cacheTag(`stock-${id}`);
-//   cacheLife("seconds")
-//   const product = await getProductField2({id, field:"stock"});
-//   if (!product) return null;
-//   const { stock, date } = product;
+  return (
+   <UpdateWrapper updatedAt={date}>
+      <Badge variant="secondary" className="text-xs font-medium">
+        {category}
+      </Badge>      
+    </UpdateWrapper>
+  );
+}
+async function Stock({ id }: { id: number }) {
+  "use cache";
+  cacheTag(`stock-${id}`);
+  cacheLife("seconds")
+  const product = await getProductField2({id, field:"stock"});
+  if (!product) return null;
+  const { stock, date } = product;
 
-//   return (
-//     <Suspense>
-//         <UpdateWrapper updatedAt={date}>
-//           <div className="flex items-end justify-between">
-//             <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
-//               <Package className="size-3.5" />
-//               <span>{stock > 0 ? `${stock} in stock` : "Out of stock"}</span>
-//             </div>
-//           </div>
-//         </UpdateWrapper>
-//     </Suspense>
-//   );
-// }
+  return (
+    <Suspense>
+        <UpdateWrapper updatedAt={date}>
+          <div className="flex items-end justify-between">
+            <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+              <Package className="size-3.5" />
+              <span>{stock > 0 ? `${stock} in stock` : "Out of stock"}</span>
+            </div>
+          </div>
+        </UpdateWrapper>
+    </Suspense>
+  );
+}
 
 // export async function ProductImage({ id }: { id: number }) {
 
