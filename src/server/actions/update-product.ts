@@ -73,11 +73,9 @@ export async function updateProductAction(
       tagsToRevalidate.add(`image-${original.id}`);
     }
     tagsToRevalidate.add(`product-${original.id}`);
-
-    for (const tag of tagsToRevalidate) {
-
-      // updateTag(tag);
-    }
+    console.log("backend")
+    console.log(tagsToRevalidate)
+    tagsToRevalidate.forEach(updateTag);
 
     return { status: "success", changedFields };
   } catch (error) {

@@ -9,7 +9,6 @@ import {  getProductField2 } from "@/server/queries/revalidateProduct";
 import EditButton from "./edit-button";
 import { UpdateWrapper } from "./update-wrapper";
 import { cn } from "@/lib/utils";
-// import { StarRating } from "./product-card-multiple-request";
 
 export interface ProductKey {
   id: number;
@@ -152,8 +151,7 @@ async function Stock({ id }: { id: number }) {
   const product = await getProductField2({id, field:"stock"});
   if (!product) return null;
   const { stock, date } = product;
-  const showConsole = id === 2 && stock
-  if (showConsole) console.log("stock component", stock, `stock-${id}`)
+
   return (
     <Suspense>
         <UpdateWrapper updatedAt={date}>
