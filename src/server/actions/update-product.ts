@@ -76,7 +76,7 @@ export async function updateProductAction(
 
     for (const tag of tagsToRevalidate) {
 
-      updateTag(tag);
+      // updateTag(tag);
     }
 
     return { status: "success", changedFields };
