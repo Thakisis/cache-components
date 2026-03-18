@@ -4,7 +4,6 @@ import { products } from "@/db/schema";
 import { dateTransformedMiliseconds } from "@/lib/dateTransformedMiliseconds";
 
 export async function getProductDescription(id: number) {
-
   const productData = await db
     .select({
       description: products.description,
@@ -12,6 +11,7 @@ export async function getProductDescription(id: number) {
     })
     .from(products)
     .where(eq(products.id, id));
+    
   const product = productData[0];
    if (!product) return null;
 

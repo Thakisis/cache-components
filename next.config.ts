@@ -1,14 +1,14 @@
 import type { NextConfig } from "next";
-
+const Year = 1000 * 60 * 60 * 24 * 365;
 const nextConfig: NextConfig = {
   /* config options here */
   
   cacheComponents: true,
   cacheLife: {
     nuncaSeRevalida: {
-      // stale: 300 ,
-      expire: 31536000 , // 1 poco menos de 1año
-      revalidate: 31536000 , // 1 año
+      stale: Year, // 1 año
+      expire: Year , // 1 poco menos de 1año
+      revalidate: Year , // 1 año
     }
   },
   images: {
