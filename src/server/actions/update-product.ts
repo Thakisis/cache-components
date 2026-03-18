@@ -73,7 +73,7 @@ export async function updateProductAction(
     //   tagsToRevalidate.add(`image-${original.id}`);
     // }
     tagsToRevalidate.add(`product-${original.id}`);
- 
+    tagsToRevalidate.add(`name-${original.id}`);
     tagsToRevalidate.forEach(updateTag);
 
     return { status: "success", changedFields };

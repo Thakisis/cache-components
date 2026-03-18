@@ -29,9 +29,9 @@ export default function ProductCard({ id }: ProductKey) {
         </div>
         <ProductRating id={id} />
         <Price id={id} /> */}
-        <Suspense>
+        {/* <Suspense>
           <Stock id={id} /> 
-        </Suspense> 
+        </Suspense>  */}
         <EditButton id={id} />
       </div>
     </article>
