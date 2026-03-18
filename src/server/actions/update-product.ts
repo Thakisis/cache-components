@@ -75,7 +75,13 @@ export async function updateProductAction(
     // tagsToRevalidate.add(`product-${original.id}`);
     // tagsToRevalidate.add(`name-${original.id}`);
     // updateTag(`product-${original.id}`);
-    updateTag(`name-${original.id}`);
+    if (changedFields.includes("name")) {
+      updateTag(`name-${original.id}`);
+    }
+    if (changedFields.includes("description")) {
+      updateTag(`description-${original.id}`);
+    }
+    // updateTag(`product-${original.id}`);
     // tagsToRevalidate.forEach(updateTag);
 
     return { status: "success", changedFields };
