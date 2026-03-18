@@ -1,13 +1,13 @@
 import EditProduct from "@/components/edit-product";
-import { getProductIds } from "@/server/queries/getProductIds";
+// import { getProductIds } from "@/server/queries/getProductIds";
 
 
-export async function generateStaticParams() {
-  const products = await getProductIds(10);
-  return products.map((product) => ({
-    idproduct: product.id.toString(),
-  }));
-}
+// export async function generateStaticParams() {
+//   const products = await getProductIds(10);
+//   return products.map((product) => ({
+//     idproduct: product.id.toString(),
+//   }));
+// }
 
 export default async function Page({
   params, 
