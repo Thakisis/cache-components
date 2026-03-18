@@ -4,7 +4,7 @@ import { UpdateWrapper } from "../product-card/update-wrapper";
 import { getProductDescription } from "@/server/queries/products/getProductDescription";
 
 export async function ProductDescription({ id }: { id: number }) {
-  "use cache";
+  "use cache: remote";
   cacheTag(`description-${id}`);
   cacheLife("nuncaSeRevalida")
   const data = await getProductDescription(id);
