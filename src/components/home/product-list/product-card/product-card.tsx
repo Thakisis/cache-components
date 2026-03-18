@@ -38,7 +38,7 @@ export default function ProductCard({ id }: ProductKey) {
   );
 }
 export async function ProductName({ id }: { id: number }) {
-  "use cache";
+  "use cache: remote";
   cacheTag(`name-${id}`);
   cacheLife("nuncaSeRevalida")
   const data = await getProductField2({id, field: "name"});
