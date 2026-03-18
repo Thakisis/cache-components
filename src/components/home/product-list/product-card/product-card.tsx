@@ -4,8 +4,12 @@ import EditButton from "./edit-button";
 
 import { cn } from "@/lib/utils";
 
-import { ProductName } from "../productItems/ProductName";
-import { ProductDescription } from "../productItems/ProductDescription";
+// import { ProductName } from "../productItems/ProductName";
+// import { ProductDescription } from "../productItems/ProductDescription";
+import { cacheLife, cacheTag } from "next/cache";
+import { getProductDescription } from "@/server/queries/products/getProductDescription";
+import { UpdateWrapper } from "./update-wrapper";
+import { getProductName } from "@/server/queries/products/getProductName";
 
 export interface ProductKey {
   id: number;
@@ -35,9 +39,38 @@ export default function ProductCard({ id }: ProductKey) {
     </article>
   );
 }
+export async function ProductDescription({ id }: { id: number }) {
+  "use cache: remote";
+  cacheTag(`description-${id}`);
+  cacheLife("nuncaSeRevalida")
+  const data = await getProductDescription(id);
+  if (!data) return null;
+  const { description, date } = data;
 
+  return (
+    <UpdateWrapper updatedAt={date}>
+      <p className="text-sm leading-relaxed text-muted-foreground">
+        {description}
+      </p>
+    </UpdateWrapper>
+  );
+}
 
-
+export async function ProductName({ id }: { id: number }) {
+  "use cache: remote";
+  cacheTag(`name-${id}`);
+  cacheLife("nuncaSeRevalida")
+  const data = await getProductName(id)
+  if (!data) return null;
+  const { name, date } = data;
+  return (  
+    <UpdateWrapper updatedAt={date}>
+      <h2 className="text-lg font-bold leading-snug text-card-foreground text-balance">
+        {name}
+      </h2>
+    </UpdateWrapper>
+  )
+}
 
 // async function Price({ id }: { id: number }) {
 //   "use cache";
