@@ -19,17 +19,12 @@ export default function ProductCard({ id }: ProductKey) {
     <article className="w-95 overflow-hidden rounded-2xl border border-border bg-card shadow-xl shadow-black/20 transition-shadow duration-300 hover:shadow-2xl hover:shadow-black/30">
       <div className="flex flex-col gap-4 p-5">
         <ProductName id={id} />
-
         <ProductDescription id={id} />
-
         <div className="flex items-center justify-between">
           <ProductBadge id={id} />
-
           <ProductBrand id={id} />
         </div>
-
         <ProductRating id={id} />
-
         <Price id={id} />
         <Suspense fallback={<div>loading</div>}>
           <Stock id={id} />
@@ -39,8 +34,10 @@ export default function ProductCard({ id }: ProductKey) {
     </article>
   );
 }
+
+
 export async function ProductName({ id }: { id: number }) {
-  "use cache";
+  "use cache: remote";
   cacheTag(`name-${id}`);
   const data = await getProductField(id, "name");
   if (!data) return null;
@@ -55,7 +52,7 @@ export async function ProductName({ id }: { id: number }) {
 }
 
 export async function ProductDescription({ id }: { id: number }) {
-  "use cache";
+  "use cache: remote";
   cacheTag(`description-${id}`);
   const data = await getProductField(id, "description");
   if (!data) return null;
@@ -71,7 +68,7 @@ export async function ProductDescription({ id }: { id: number }) {
 }
 
 async function Price({ id }: { id: number }) {
-  "use cache";
+  "use cache: remote";
   cacheTag(`price-${id}`, `discount-${id}`);
   const dataprice = await getProductField(id, "price");
   const datadiscount = await getProductField(id, "discount");
@@ -98,7 +95,7 @@ async function Price({ id }: { id: number }) {
 }
 
 export async function ProductRating({ id }: { id: number }) {
-  "use cache";
+  "use cache: remote";
   cacheTag(`rating-${id}`);
   const data = await getProductField(id, "rating");
   if (!data) return null;
@@ -111,7 +108,7 @@ export async function ProductRating({ id }: { id: number }) {
 }
 
 export async function ProductBrand({ id }: { id: number }) {
-  "use cache";
+  "use cache: remote";
   cacheTag(`brand-${id}`);
   const data = await getProductField(id, "brand");
   if (!data) return null;
@@ -126,7 +123,7 @@ export async function ProductBrand({ id }: { id: number }) {
 }
 
 export async function ProductBadge({ id }: { id: number }) {
-  "use cache";
+  "use cache: remote";
   cacheTag(`category-${id}`);
   const data = await getProductField(id, "category");
   if (!data) return null;
@@ -160,7 +157,7 @@ async function Stock({ id }: { id: number }) {
 }
 
 export async function ProductImage({ id }: { id: number }) {
-  "use cache";
+  "use cache: remote";
   cacheTag(`image-${id}`);
   const name = await getProductField(id, "name");
   const description = await getProductField(id, "description");
