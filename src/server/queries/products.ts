@@ -8,14 +8,7 @@ import { type Product, products } from "@/db/schema";
 //   return db.select().from(products);
 // }
 
-export async function getProduct(id: number) {
-  "use cache";
-  cacheTag(`product-${id}`);
-  cacheLife("nuncaSeRevalida")
-  const result = await db.select().from(products).where(eq(products.id, id));
-  
-  return result[0];
-}
+
 
 export async function getProductField<
   K extends keyof typeof products & keyof Product,
