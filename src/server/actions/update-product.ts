@@ -62,27 +62,22 @@ export async function updateProductAction(
       .set({ ...patch, updatedAt: sql`(datetime('now'))` })
       .where(eq(products.id, original.id));
 
-    // const tagsToRevalidate = new Set<string>();
+    const tagsToRevalidate = new Set<string>();
 
-    // for (const field of changedFields) {
-    //   const tagFn = FIELD_CACHE_TAGS[field];
-    //   if (tagFn) tagsToRevalidate.add(tagFn(original.id));
-    // }
+    for (const field of changedFields) {
+      const tagFn = FIELD_CACHE_TAGS[field];
+      if (tagFn) tagsToRevalidate.add(tagFn(original.id));
+    }
 
-    // if (IMAGE_TRIGGER_FIELDS.some((f) => changedFields.includes(f))) {
-    //   tagsToRevalidate.add(`image-${original.id}`);
-    // }
-    // tagsToRevalidate.add(`product-${original.id}`);
+    if (IMAGE_TRIGGER_FIELDS.some((f) => changedFields.includes(f))) {
+      tagsToRevalidate.add(`image-${original.id}`);
+    }
+    tagsToRevalidate.add(`product-${original.id}`);
     // tagsToRevalidate.add(`name-${original.id}`);
     // updateTag(`product-${original.id}`);
-    if (changedFields.includes("name")) {
-      updateTag(`name-${original.id}`);
-    }
-    if (changedFields.includes("description")) {
-      updateTag(`description-${original.id}`);
-    }
+ 
     // updateTag(`product-${original.id}`);
-    // tagsToRevalidate.forEach(updateTag);
+    tagsToRevalidate.forEach(updateTag);
 
     return { status: "success", changedFields };
   } catch (error) {
