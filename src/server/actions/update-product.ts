@@ -72,9 +72,8 @@ export async function updateProductAction(
     if (IMAGE_TRIGGER_FIELDS.some((f) => changedFields.includes(f))) {
       tagsToRevalidate.add(`image-${original.id}`);
     }
-    tagsToRevalidate.add(`product-${original.id}`);
-    console.log("backend")
-    console.log(tagsToRevalidate)
+    // tagsToRevalidate.add(`product-${original.id}`);
+ 
     tagsToRevalidate.forEach(updateTag);
 
     return { status: "success", changedFields };
