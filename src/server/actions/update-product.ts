@@ -64,15 +64,15 @@ export async function updateProductAction(
 
     const tagsToRevalidate = new Set<string>();
 
-    for (const field of changedFields) {
-      const tagFn = FIELD_CACHE_TAGS[field];
-      if (tagFn) tagsToRevalidate.add(tagFn(original.id));
-    }
+    // for (const field of changedFields) {
+    //   const tagFn = FIELD_CACHE_TAGS[field];
+    //   if (tagFn) tagsToRevalidate.add(tagFn(original.id));
+    // }
 
-    if (IMAGE_TRIGGER_FIELDS.some((f) => changedFields.includes(f))) {
-      tagsToRevalidate.add(`image-${original.id}`);
-    }
-    // tagsToRevalidate.add(`product-${original.id}`);
+    // if (IMAGE_TRIGGER_FIELDS.some((f) => changedFields.includes(f))) {
+    //   tagsToRevalidate.add(`image-${original.id}`);
+    // }
+    tagsToRevalidate.add(`product-${original.id}`);
  
     tagsToRevalidate.forEach(updateTag);
 
