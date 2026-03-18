@@ -72,9 +72,11 @@ export async function updateProductAction(
     // if (IMAGE_TRIGGER_FIELDS.some((f) => changedFields.includes(f))) {
     //   tagsToRevalidate.add(`image-${original.id}`);
     // }
-    tagsToRevalidate.add(`product-${original.id}`);
-    tagsToRevalidate.add(`name-${original.id}`);
-    tagsToRevalidate.forEach(updateTag);
+    // tagsToRevalidate.add(`product-${original.id}`);
+    // tagsToRevalidate.add(`name-${original.id}`);
+    // updateTag(`product-${original.id}`);
+    updateTag(`name-${original.id}`);
+    // tagsToRevalidate.forEach(updateTag);
 
     return { status: "success", changedFields };
   } catch (error) {
