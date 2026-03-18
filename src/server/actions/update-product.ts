@@ -62,7 +62,7 @@ export async function updateProductAction(
       .set({ ...patch, updatedAt: sql`(datetime('now'))` })
       .where(eq(products.id, original.id));
 
-    const tagsToRevalidate = new Set<string>();
+    // const tagsToRevalidate = new Set<string>();
 
     // for (const field of changedFields) {
     //   const tagFn = FIELD_CACHE_TAGS[field];
