@@ -8,7 +8,7 @@ const nextConfig: NextConfig = {
     productCache: {
       stale: Number.MAX_SAFE_INTEGER, // máximo posible
       revalidate: Number.MAX_SAFE_INTEGER,
-      // expire omitido = nunca expira (Infinity)
+      expire: Number.MAX_SAFE_INTEGER,
     },
   },
   images: {

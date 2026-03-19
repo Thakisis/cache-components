@@ -1,4 +1,4 @@
-import { cacheTag } from "next/cache";
+import { cacheLife, cacheTag } from "next/cache";
 
 import { getProduct } from "@/server/queries/products";
 import { ProductEditForm } from "./product-edit-form";
@@ -7,7 +7,8 @@ export type PageParams = {
 };
 
 export default async function EditProduct({ idproduct }: PageParams) {
-  "use cache";
+  "use cache: remote";
+  cacheLife("max");
   cacheTag(`product-${idproduct}`);
   const product = await getProduct(parseInt(idproduct, 10));
 

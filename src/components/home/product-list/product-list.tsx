@@ -1,6 +1,9 @@
+import { cacheLife } from "next/cache";
 import { getProductIds } from "@/server/queries/products";
 import ProductCard from "./product-card";
 export default async function ProductList() {
+  "use cache";
+  cacheLife("max");
   const productosIds = await getProductIds(10);
   const listaprod = productosIds.map((product) => (
     <ProductCard key={product.id} id={product.id} />

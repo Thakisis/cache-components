@@ -35,7 +35,8 @@
   },
 
   // Disable ESLint if installed to avoid conflicts
-  "eslint.enable": false
+  "eslint.enable": false,
+  "js/ts.tsdk.path": "node_modules\\typescript\\lib"
 
   // Biome validation
 }

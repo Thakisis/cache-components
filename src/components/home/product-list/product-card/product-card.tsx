@@ -1,10 +1,9 @@
 import { Package, Star } from "lucide-react";
-import { cacheTag } from "next/cache";
+import { cacheLife, cacheTag } from "next/cache";
 import Image from "next/image";
 import { connection } from "next/server";
 import { Suspense } from "react";
 import { Badge } from "@/components/ui/badge";
-import { cacheLife } from 'next/cache'
 
 import { generateCardImage } from "@/lib/generateImages";
 import { cn } from "@/lib/utils";
@@ -36,9 +35,10 @@ export default function ProductCard({ id }: ProductKey) {
   );
 }
 
-
 export async function ProductName({ id }: { id: number }) {
   "use cache: remote";
+  cacheLife("max");
+
   cacheTag(`name-${id}`);
   const data = await getProductField(id, "name");
   if (!data) return null;
@@ -54,6 +54,8 @@ export async function ProductName({ id }: { id: number }) {
 
 export async function ProductDescription({ id }: { id: number }) {
   "use cache: remote";
+  cacheLife("max");
+
   cacheTag(`description-${id}`);
   const data = await getProductField(id, "description");
   if (!data) return null;
@@ -70,6 +72,8 @@ export async function ProductDescription({ id }: { id: number }) {
 
 async function Price({ id }: { id: number }) {
   "use cache: remote";
+  cacheLife("max");
+
   cacheTag(`price-${id}`, `discount-${id}`);
   const dataprice = await getProductField(id, "price");
   const datadiscount = await getProductField(id, "discount");
@@ -97,6 +101,8 @@ async function Price({ id }: { id: number }) {
 
 export async function ProductRating({ id }: { id: number }) {
   "use cache: remote";
+  cacheLife("max");
+
   cacheTag(`rating-${id}`);
   const data = await getProductField(id, "rating");
   if (!data) return null;
@@ -110,6 +116,8 @@ export async function ProductRating({ id }: { id: number }) {
 
 export async function ProductBrand({ id }: { id: number }) {
   "use cache: remote";
+  cacheLife("max");
+
   cacheTag(`brand-${id}`);
   const data = await getProductField(id, "brand");
   if (!data) return null;
@@ -125,6 +133,8 @@ export async function ProductBrand({ id }: { id: number }) {
 
 export async function ProductBadge({ id }: { id: number }) {
   "use cache: remote";
+  cacheLife("max");
+
   cacheTag(`category-${id}`);
   const data = await getProductField(id, "category");
   if (!data) return null;
@@ -139,7 +149,7 @@ export async function ProductBadge({ id }: { id: number }) {
   );
 }
 async function Stock({ id }: { id: number }) {
-  await connection(); // le dice a Next.js que este componente es dinámico
+  "use no store";
 
   const product = await getProductField(id, "stock");
   if (!product) return null;
@@ -159,6 +169,8 @@ async function Stock({ id }: { id: number }) {
 
 export async function ProductImage({ id }: { id: number }) {
   "use cache: remote";
+  cacheLife("max");
+
   cacheTag(`image-${id}`);
   const name = await getProductField(id, "name");
   const description = await getProductField(id, "description");
