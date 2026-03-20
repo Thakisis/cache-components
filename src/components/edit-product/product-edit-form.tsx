@@ -104,7 +104,14 @@ export function ProductEditForm({ product }: ProductEditFormProps) {
         </Button>
       </div>
 
-      <form action={formAction} className="space-y-8">
+      <form
+        className="space-y-8"
+        onSubmit={async (e) => {
+          e.preventDefault();
+          const formData = new FormData(e.currentTarget);
+          await updateProductAction(initialState, formData);
+        }}
+      >
         {/* Solo original va serializado, edited se lee del FormData */}
         <input type="hidden" name="original" value={JSON.stringify(product)} />
 
