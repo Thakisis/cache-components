@@ -7,7 +7,7 @@ export type PageParams = {
 };
 
 export default async function EditProduct({ idproduct }: PageParams) {
-  "use cache: remote";
+  "use cache";
   cacheLife("max");
   cacheTag(`product-${idproduct}`);
   const product = await getProduct(parseInt(idproduct, 10));
